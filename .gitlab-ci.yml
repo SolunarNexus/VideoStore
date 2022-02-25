@@ -2,6 +2,6 @@ image: maven:3-openjdk-17
 
 build:
   script:
-    - mvn clean install -DfailIfNoTests=true
+    - mvn --no-transfer-progress -DfailIfNoTests=true clean verify
   tags:
     - shared-fi
