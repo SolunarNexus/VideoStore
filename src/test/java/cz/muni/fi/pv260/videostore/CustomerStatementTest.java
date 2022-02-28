@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CustomerStatementTest {
 
+    private static final Movie REGULAR_MOVIE = new Movie("Regular Movie", Movie.REGULAR);
+
     private final Customer customer = new Customer("John Doe");
 
     @Test
@@ -19,7 +21,8 @@ class CustomerStatementTest {
 
     @Test
     void regularMovieFlatRate() {
-        customer.addRental(new Rental(new Movie("Regular Movie", Movie.REGULAR), 1));
+        customer.addRental(new Rental(REGULAR_MOVIE, 1));
+
         assertStatement("""
                 Rental Record for John Doe
                 	Regular Movie	2.0
@@ -30,7 +33,8 @@ class CustomerStatementTest {
 
     @Test
     void regularMovieProgressiveRate() {
-        customer.addRental(new Rental(new Movie("Regular Movie", Movie.REGULAR), 3));
+        customer.addRental(new Rental(REGULAR_MOVIE, 3));
+
         assertStatement("""
                 Rental Record for John Doe
                 	Regular Movie	3.5
