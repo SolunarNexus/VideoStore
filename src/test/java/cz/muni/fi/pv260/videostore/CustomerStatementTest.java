@@ -171,6 +171,42 @@ class CustomerStatementTest {
     }
 
     @Test
+    void regularMovieNegativeDays() {
+        customer.addRental(new Rental(REGULAR_MOVIE, -10));
+
+        assertStatement("""
+                Rental Record for John Doe
+                	Regular Movie	2.0
+                You owed 2.0
+                You earned 1 frequent renter points
+                """);
+    }
+
+    @Test
+    void newReleaseMovieNegativeDays() {
+        customer.addRental(new Rental(NEW_RELEASE_MOVIE, -10));
+
+        assertStatement("""
+                Rental Record for John Doe
+                	New Release Movie	-30.0
+                You owed -30.0
+                You earned 1 frequent renter points
+                """);
+    }
+
+    @Test
+    void childrensMovieNegativeDays() {
+        customer.addRental(new Rental(CHILDRENS_MOVIE, -10));
+
+        assertStatement("""
+                Rental Record for John Doe
+                	Children's Movie	1.5
+                You owed 1.5
+                You earned 1 frequent renter points
+                """);
+    }
+
+    @Test
     void unknownMovieType() {
         customer.addRental(new Rental(new Movie("Unknown", -1), 100));
 
