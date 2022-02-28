@@ -8,6 +8,7 @@ class CustomerStatementTest {
 
     private static final Movie REGULAR_MOVIE = new Movie("Regular Movie", Movie.REGULAR);
     private static final Movie NEW_RELEASE_MOVIE = new Movie("New Release Movie", Movie.NEW_RELEASE);
+    private static final Movie CHILDRENS_MOVIE = new Movie("Children's Movie", Movie.CHILDRENS);
 
     private final Customer customer = new Customer("John Doe");
 
@@ -65,6 +66,30 @@ class CustomerStatementTest {
                 	New Release Movie	6.0
                 You owed 6.0
                 You earned 2 frequent renter points
+                """);
+    }
+
+    @Test
+    void childrensMovieFlatRate() {
+        customer.addRental(new Rental(CHILDRENS_MOVIE, 1));
+
+        assertStatement("""
+                Rental Record for John Doe
+                	Children's Movie	1.5
+                You owed 1.5
+                You earned 1 frequent renter points
+                """);
+    }
+
+    @Test
+    void childrensMovieProgressiveRate() {
+        customer.addRental(new Rental(CHILDRENS_MOVIE, 4));
+
+        assertStatement("""
+                Rental Record for John Doe
+                	Children's Movie	3.0
+                You owed 3.0
+                You earned 1 frequent renter points
                 """);
     }
 
