@@ -214,6 +214,42 @@ class CustomerStatementTest {
                 """);
     }
 
+    @Test
+    void emptyMovieName() {
+        customer.addRental(new Rental(new Movie("", Movie.REGULAR), 4));
+
+        assertStatement("""
+                Rental Record for John Doe
+                		5.0
+                You owed 5.0
+                You earned 1 frequent renter points
+                """);
+    }
+
+    @Test
+    void nullMovieName() {
+        customer.addRental(new Rental(new Movie(null, Movie.REGULAR), 4));
+
+        assertStatement("""
+                Rental Record for John Doe
+                	null	5.0
+                You owed 5.0
+                You earned 1 frequent renter points
+                """);
+    }
+
+    @Test
+    void unicodeMovieName() {
+        customer.addRental(new Rental(new Movie("Příběhy obyčejného šílenství", Movie.REGULAR), 4));
+
+        assertStatement("""
+                Rental Record for John Doe
+                	Příběhy obyčejného šílenství	5.0
+                You owed 5.0
+                You earned 1 frequent renter points
+                """);
+    }
+
     private void assertStatement(String expectedStatement) {
         assertEquals(expectedStatement, customer.statement());
     }
