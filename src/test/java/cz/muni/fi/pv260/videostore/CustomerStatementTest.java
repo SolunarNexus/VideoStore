@@ -10,7 +10,7 @@ class CustomerStatementTest {
     private static final Movie NEW_RELEASE_MOVIE = new Movie("New Release Movie", Movie.NEW_RELEASE);
     private static final Movie CHILDRENS_MOVIE = new Movie("Children's Movie", Movie.CHILDRENS);
 
-    private final Customer customer = new Customer("John Doe");
+    private Customer customer = new Customer("John Doe");
 
     @Test
     void noRentals() {
@@ -178,6 +178,39 @@ class CustomerStatementTest {
                 	Unknown	0.0
                 You owed 0.0
                 You earned 1 frequent renter points
+                """);
+    }
+
+    @Test
+    void emptyCustomerName() {
+        customer = new Customer("");
+
+        assertStatement("""
+                Rental Record for\s
+                You owed 0.0
+                You earned 0 frequent renter points
+                """);
+    }
+
+    @Test
+    void nullCustomerName() {
+        customer = new Customer(null);
+
+        assertStatement("""
+                Rental Record for null
+                You owed 0.0
+                You earned 0 frequent renter points
+                """);
+    }
+
+    @Test
+    void unicodeCustomerName() {
+        customer = new Customer("František Vopršálek");
+
+        assertStatement("""
+                Rental Record for František Vopršálek
+                You owed 0.0
+                You earned 0 frequent renter points
                 """);
     }
 
