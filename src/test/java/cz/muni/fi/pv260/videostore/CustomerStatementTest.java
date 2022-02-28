@@ -46,6 +46,18 @@ class CustomerStatementTest {
     }
 
     @Test
+    void regularMovieFlatRateOnBoundary() {
+        customer.addRental(new Rental(REGULAR_MOVIE, 2));
+
+        assertStatement("""
+                Rental Record for John Doe
+                	Regular Movie	2.0
+                You owed 2.0
+                You earned 1 frequent renter points
+                """);
+    }
+
+    @Test
     void regularMovieProgressiveRate() {
         customer.addRental(new Rental(REGULAR_MOVIE, 3));
 
@@ -108,6 +120,18 @@ class CustomerStatementTest {
     @Test
     void childrensMovieFlatRate() {
         customer.addRental(new Rental(CHILDRENS_MOVIE, 1));
+
+        assertStatement("""
+                Rental Record for John Doe
+                	Children's Movie	1.5
+                You owed 1.5
+                You earned 1 frequent renter points
+                """);
+    }
+
+    @Test
+    void childrensMovieFlatRateOnBoundary() {
+        customer.addRental(new Rental(CHILDRENS_MOVIE, 3));
 
         assertStatement("""
                 Rental Record for John Doe
