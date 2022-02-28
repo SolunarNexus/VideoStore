@@ -3,6 +3,7 @@ package cz.muni.fi.pv260.videostore;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CustomerStatementTest {
 
@@ -248,6 +249,20 @@ class CustomerStatementTest {
                 You owed 5.0
                 You earned 1 frequent renter points
                 """);
+    }
+
+    @Test
+    void nullMovie() {
+        customer.addRental(new Rental(null, 4));
+
+        assertThrows(NullPointerException.class, () -> customer.statement());
+    }
+
+    @Test
+    void nullRental() {
+        customer.addRental(null);
+
+        assertThrows(NullPointerException.class, () -> customer.statement());
     }
 
     private void assertStatement(String expectedStatement) {
