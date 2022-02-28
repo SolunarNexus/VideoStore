@@ -16,4 +16,30 @@ class CustomerStatementTest {
                 """;
         assertEquals(expectedStatement, customer.statement());
     }
+
+    @Test
+    void regularMovieFlatRate() {
+        var customer = new Customer("John Doe");
+        customer.addRental(new Rental(new Movie("Regular Movie", Movie.REGULAR), 1));
+        String expectedStatement = """
+                Rental Record for John Doe
+                	Regular Movie	2.0
+                You owed 2.0
+                You earned 1 frequent renter points
+                """;
+        assertEquals(expectedStatement, customer.statement());
+    }
+
+    @Test
+    void regularMovieProgressiveRate() {
+        var customer = new Customer("John Doe");
+        customer.addRental(new Rental(new Movie("Regular Movie", Movie.REGULAR), 3));
+        String expectedStatement = """
+                Rental Record for John Doe
+                	Regular Movie	3.5
+                You owed 3.5
+                You earned 1 frequent renter points
+                """;
+        assertEquals(expectedStatement, customer.statement());
+    }
 }
