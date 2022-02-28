@@ -15,7 +15,7 @@ class CustomerStatementTest {
                 You owed 0.0
                 You earned 0 frequent renter points
                 """;
-        assertEquals(expectedStatement, customer.statement());
+        assertStatement(expectedStatement);
     }
 
     @Test
@@ -27,7 +27,7 @@ class CustomerStatementTest {
                 You owed 2.0
                 You earned 1 frequent renter points
                 """;
-        assertEquals(expectedStatement, customer.statement());
+        assertStatement(expectedStatement);
     }
 
     @Test
@@ -39,6 +39,10 @@ class CustomerStatementTest {
                 You owed 3.5
                 You earned 1 frequent renter points
                 """;
+        assertStatement(expectedStatement);
+    }
+
+    private void assertStatement(String expectedStatement) {
         assertEquals(expectedStatement, customer.statement());
     }
 }
