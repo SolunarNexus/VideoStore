@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class CustomerStatementTest {
 
     private static final Movie REGULAR_MOVIE = new Movie("Regular Movie", Movie.REGULAR);
+    private static final Movie NEW_RELEASE_MOVIE = new Movie("New Release Movie", Movie.NEW_RELEASE);
 
     private final Customer customer = new Customer("John Doe");
 
@@ -40,6 +41,30 @@ class CustomerStatementTest {
                 	Regular Movie	3.5
                 You owed 3.5
                 You earned 1 frequent renter points
+                """);
+    }
+
+    @Test
+    void newReleaseMovieBasicPoints() {
+        customer.addRental(new Rental(NEW_RELEASE_MOVIE, 1));
+
+        assertStatement("""
+                Rental Record for John Doe
+                	New Release Movie	3.0
+                You owed 3.0
+                You earned 1 frequent renter points
+                """);
+    }
+
+    @Test
+    void newReleaseMovieExtraPoints() {
+        customer.addRental(new Rental(NEW_RELEASE_MOVIE, 2));
+
+        assertStatement("""
+                Rental Record for John Doe
+                	New Release Movie	6.0
+                You owed 6.0
+                You earned 2 frequent renter points
                 """);
     }
 
