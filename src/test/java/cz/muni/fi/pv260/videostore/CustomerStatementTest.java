@@ -6,9 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CustomerStatementTest {
 
+    private final Customer customer = new Customer("John Doe");
+
     @Test
     void noRentals() {
-        var customer = new Customer("John Doe");
         String expectedStatement = """
                 Rental Record for John Doe
                 You owed 0.0
@@ -19,7 +20,6 @@ class CustomerStatementTest {
 
     @Test
     void regularMovieFlatRate() {
-        var customer = new Customer("John Doe");
         customer.addRental(new Rental(new Movie("Regular Movie", Movie.REGULAR), 1));
         String expectedStatement = """
                 Rental Record for John Doe
@@ -32,7 +32,6 @@ class CustomerStatementTest {
 
     @Test
     void regularMovieProgressiveRate() {
-        var customer = new Customer("John Doe");
         customer.addRental(new Rental(new Movie("Regular Movie", Movie.REGULAR), 3));
         String expectedStatement = """
                 Rental Record for John Doe
