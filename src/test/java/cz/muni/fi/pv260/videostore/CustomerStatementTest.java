@@ -93,6 +93,22 @@ class CustomerStatementTest {
                 """);
     }
 
+    @Test
+    void multipleMoviesOrderAndTotals() {
+        customer.addRental(new Rental(REGULAR_MOVIE, 10));
+        customer.addRental(new Rental(NEW_RELEASE_MOVIE, 10));
+        customer.addRental(new Rental(CHILDRENS_MOVIE, 10));
+
+        assertStatement("""
+                Rental Record for John Doe
+                	Regular Movie	14.0
+                	New Release Movie	30.0
+                	Children's Movie	12.0
+                You owed 56.0
+                You earned 4 frequent renter points
+                """);
+    }
+
     private void assertStatement(String expectedStatement) {
         assertEquals(expectedStatement, customer.statement());
     }
