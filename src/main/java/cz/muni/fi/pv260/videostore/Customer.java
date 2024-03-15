@@ -1,5 +1,6 @@
 package cz.muni.fi.pv260.videostore;
 
+import java.util.List;
 import java.util.Vector;
 import java.util.Enumeration;
 
@@ -21,17 +22,17 @@ public class Customer
 //        return 0;
 //    }
 
-//    private double totalPrice(){
-//        double total = 0;
-//
-//        for (Rental rental : this.rentals) {
-//            total = getPriceOf(rental.getMovie(), rental.getDaysRented());
-//        }
-//
-//        return total;
-//    }
+    public double getTotalRentalPrice(){
+        double total = 0;
 
-    public double getPriceOf(Movie movie, int daysRented){
+        for (Rental rental : this.rentals) {
+            total += getRentalPriceOf(rental.getMovie(), rental.getDaysRented());
+        }
+
+        return total;
+    }
+
+    public double getRentalPriceOf(Movie movie, int daysRented){
         if (movie == null){
             return 0;
         }
@@ -58,14 +59,15 @@ public class Customer
     }
 
     public String statement () {
-        double      totalAmount             = 0;
+        double      totalAmount             = getTotalRentalPrice();
         int         frequentRenterPoints    = 0;
         Enumeration rentals                 = this.rentals.elements ();
         String      result                  = "Rental Record for " + getName () + "\n";
+        List<Double> moviePrices = this.rentals.stream().map(rental -> getRentalPriceOf(rental.getMovie(), rental.getDaysRented())).toList();
+        int i = 0;
 
         while (rentals.hasMoreElements ()) {
             Rental  each = (Rental)rentals.nextElement ();
-            double thisAmount = getPriceOf(each.getMovie(), each.getDaysRented());
 
             frequentRenterPoints++;
 
@@ -74,14 +76,11 @@ public class Customer
                 frequentRenterPoints++;
 
             result += "\t" + each.getMovie ().getTitle () + "\t"
-                    + String.valueOf (thisAmount) + "\n";
-            totalAmount += thisAmount;
-
+                    + moviePrices.get(i++) + "\n";
         }
 
-        result += "You owed " + String.valueOf (totalAmount) + "\n";
+        result += "You owed " + totalAmount + "\n";
         result += "You earned " + String.valueOf (frequentRenterPoints) + " frequent renter points\n";
-
 
         return result;
     }
