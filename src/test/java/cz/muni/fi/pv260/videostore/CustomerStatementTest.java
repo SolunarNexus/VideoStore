@@ -2,6 +2,7 @@ package cz.muni.fi.pv260.videostore;
 
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -299,6 +300,41 @@ final class CustomerStatementTest {
         customer.addRental(null);
 
         assertThrows(NullPointerException.class, () -> customer.statement());
+    }
+
+    @Test
+    void rentalMoviePriceNullMovie(){
+        assertThat(customer.getPriceOf(null, 1)).isEqualTo(0);
+    }
+
+    @Test
+    void rentalMoviePriceNewRelease(){
+        assertThat(customer.getPriceOf(new Movie("Shrek", 1), 3)).isEqualTo(9);
+    }
+
+    @Test
+    void rentalMoviePriceRegularLessThanThreeDays(){
+        assertThat(customer.getPriceOf(new Movie("Shrek", 0), 2)).isEqualTo(2);
+    }
+
+    @Test
+    void rentalMoviePriceRegularMoreThanThreeDays(){
+        assertThat(customer.getPriceOf(new Movie("Shrek", 0), 3)).isEqualTo(3.5);
+    }
+
+    @Test
+    void rentalMoviePriceChildrensLessThanFourDays(){
+        assertThat(customer.getPriceOf(new Movie("Shrek", 2), 3)).isEqualTo(1.5);
+    }
+
+    @Test
+    void rentalMoviePriceChildrensMoreThanFourDays(){
+        assertThat(customer.getPriceOf(new Movie("Shrek", 2), 4)).isEqualTo(3);
+    }
+
+    @Test
+    void rentalMoviePriceUnknownPriceCode(){
+        assertThat(customer.getPriceOf(new Movie("Shrek", 3), 10)).isEqualTo(0);
     }
 
     private void assertStatement(String expectedStatement) {
