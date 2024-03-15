@@ -433,6 +433,41 @@ final class CustomerStatementTest {
         assertThat(customer.getTotalRentalPrice()).isEqualTo(0);
     }
 
+    @Test
+    void frequenterPointsRegularAndChildrensMovie(){
+        Rental regular = new Rental(REGULAR_MOVIE, 10);
+        assertThat(customer.getFrequenterPoints(regular)).isEqualTo(1);
+
+        Rental childrens = new Rental(CHILDRENS_MOVIE, 10);
+        assertThat(customer.getFrequenterPoints(childrens)).isEqualTo(1);
+    }
+
+    @Test
+    void frequenterPointsNewReleaseZeroDays(){
+        Rental regular = new Rental(NEW_RELEASE_MOVIE, 0);
+        assertThat(customer.getFrequenterPoints(regular)).isEqualTo(1);
+    }
+
+    @Test
+    void frequenterPointsNewReleaseBoundary(){
+        Rental regular = new Rental(NEW_RELEASE_MOVIE, 1);
+        assertThat(customer.getFrequenterPoints(regular)).isEqualTo(1);
+    }
+
+    @Test
+    void frequenterPointsNewReleaseExtraPoints(){
+        Rental regular = new Rental(NEW_RELEASE_MOVIE, 2);
+        assertThat(customer.getFrequenterPoints(regular)).isEqualTo(2);
+    }
+
+    @Test
+    void totalFrequenterPointsMultiple(){
+        customer.addRental(new Rental(REGULAR_MOVIE, 10));
+        customer.addRental(new Rental(NEW_RELEASE_MOVIE, 10));
+        customer.addRental(new Rental(CHILDRENS_MOVIE, 10));
+        assertThat(customer.getTotalFrequenterPoints()).isEqualTo(4);
+    }
+
     private void assertStatement(String expectedStatement) {
         assertEquals(expectedStatement, customer.statement());
     }
