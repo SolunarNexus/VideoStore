@@ -1,5 +1,6 @@
 package cz.muni.fi.pv260.videostore;
 
+import cz.muni.fi.pv260.videostore.movie.Movie;
 import javafx.util.Pair;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class Customer {
     }
 
     public int getFrequenterPoints(Rental rental) {
-        return (rental.getMovie().getPriceCode() == Movie.NEW_RELEASE && rental.getDaysRented() > 1) ? 2 : 1;
+        return (rental.getMovie().countsToFrequentPoints() && rental.getDaysRented() > 1) ? 2 : 1;
     }
 
     public int getTotalFrequenterPoints() {
@@ -46,26 +47,7 @@ public class Customer {
         if (movie == null) {
             return 0;
         }
-        double price;
-
-        switch (movie.getPriceCode()) {
-            case Movie.REGULAR:
-                price = 2;
-                if (daysRented > 2)
-                    price += (daysRented - 2) * 1.5;
-                break;
-            case Movie.NEW_RELEASE:
-                price = daysRented * 3;
-                break;
-            case Movie.CHILDRENS:
-                price = 1.5;
-                if (daysRented > 3)
-                    price += (daysRented - 3) * 1.5;
-                break;
-            default:
-                return 0;
-        }
-        return price;
+        return movie.getRentalPrice(daysRented);
     }
 
     public String statement() {
