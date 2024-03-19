@@ -1,5 +1,9 @@
 package cz.muni.fi.pv260.videostore;
 
+import cz.muni.fi.pv260.videostore.movie.Movie;
+import cz.muni.fi.pv260.videostore.movie.ChildrenMovie;
+import cz.muni.fi.pv260.videostore.movie.NewReleaseMovie;
+import cz.muni.fi.pv260.videostore.movie.RegularMovie;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -8,9 +12,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 final class CustomerStatementTest {
 
-    private static final Movie REGULAR_MOVIE = new Movie("Regular Movie", Movie.REGULAR);
-    private static final Movie NEW_RELEASE_MOVIE = new Movie("New Release Movie", Movie.NEW_RELEASE);
-    private static final Movie CHILDRENS_MOVIE = new Movie("Children's Movie", Movie.CHILDRENS);
+    private static final Movie REGULAR_MOVIE = new RegularMovie("Regular Movie");
+    private static final Movie NEW_RELEASE_MOVIE = new NewReleaseMovie("New Release Movie");
+    private static final Movie CHILDRENS_MOVIE = new ChildrenMovie("Children's Movie");
 
     private Customer customer = new Customer("John Doe");
 
@@ -208,18 +212,6 @@ final class CustomerStatementTest {
     }
 
     @Test
-    void unknownMovieType() {
-        customer.addRental(new Rental(new Movie("Unknown", -1), 100));
-
-        assertStatement("""
-                Rental Record for John Doe
-                	Unknown	0.0
-                You owed 0.0
-                You earned 1 frequent renter points
-                """);
-    }
-
-    @Test
     void emptyCustomerName() {
         customer = new Customer("");
 
@@ -254,7 +246,7 @@ final class CustomerStatementTest {
 
     @Test
     void emptyMovieName() {
-        customer.addRental(new Rental(new Movie("", Movie.REGULAR), 4));
+        customer.addRental(new Rental(new RegularMovie(""), 4));
 
         assertStatement("""
                 Rental Record for John Doe
@@ -266,7 +258,7 @@ final class CustomerStatementTest {
 
     @Test
     void nullMovieName() {
-        customer.addRental(new Rental(new Movie(null, Movie.REGULAR), 4));
+        customer.addRental(new Rental(new RegularMovie(null), 4));
 
         assertStatement("""
                 Rental Record for John Doe
@@ -278,7 +270,7 @@ final class CustomerStatementTest {
 
     @Test
     void unicodeMovieName() {
-        customer.addRental(new Rental(new Movie("Příběhy obyčejného šílenství", Movie.REGULAR), 4));
+        customer.addRental(new Rental(new RegularMovie("Příběhy obyčejného šílenství"), 4));
 
         assertStatement("""
                 Rental Record for John Doe
@@ -309,32 +301,27 @@ final class CustomerStatementTest {
 
     @Test
     void rentalMoviePriceNewRelease(){
-        assertThat(customer.getRentalPriceOf(new Movie("Shrek", 1), 3)).isEqualTo(9);
+        assertThat(customer.getRentalPriceOf(new NewReleaseMovie("Shrek"), 3)).isEqualTo(9);
     }
 
     @Test
     void rentalMoviePriceRegularLessThanThreeDays(){
-        assertThat(customer.getRentalPriceOf(new Movie("Shrek", 0), 2)).isEqualTo(2);
+        assertThat(customer.getRentalPriceOf(new RegularMovie("Shrek"), 2)).isEqualTo(2);
     }
 
     @Test
     void rentalMoviePriceRegularMoreThanThreeDays(){
-        assertThat(customer.getRentalPriceOf(new Movie("Shrek", 0), 3)).isEqualTo(3.5);
+        assertThat(customer.getRentalPriceOf(new RegularMovie("Shrek"), 3)).isEqualTo(3.5);
     }
 
     @Test
     void rentalMoviePriceChildrensLessThanFourDays(){
-        assertThat(customer.getRentalPriceOf(new Movie("Shrek", 2), 3)).isEqualTo(1.5);
+        assertThat(customer.getRentalPriceOf(new ChildrenMovie("Shrek"), 3)).isEqualTo(1.5);
     }
 
     @Test
     void rentalMoviePriceChildrensMoreThanFourDays(){
-        assertThat(customer.getRentalPriceOf(new Movie("Shrek", 2), 4)).isEqualTo(3);
-    }
-
-    @Test
-    void rentalMoviePriceUnknownPriceCode(){
-        assertThat(customer.getRentalPriceOf(new Movie("Shrek", 3), 10)).isEqualTo(0);
+        assertThat(customer.getRentalPriceOf(new ChildrenMovie("Shrek"), 4)).isEqualTo(3);
     }
 
     @Test
@@ -425,12 +412,6 @@ final class CustomerStatementTest {
         customer.addRental(new Rental(NEW_RELEASE_MOVIE, 10));
         customer.addRental(new Rental(CHILDRENS_MOVIE, 10));
         assertThat(customer.getTotalRentalPrice()).isEqualTo(56);
-    }
-
-    @Test
-    void totalRentalPriceUnknownMovie(){
-        customer.addRental(new Rental(new Movie("Unknown", -1), 100));
-        assertThat(customer.getTotalRentalPrice()).isEqualTo(0);
     }
 
     @Test

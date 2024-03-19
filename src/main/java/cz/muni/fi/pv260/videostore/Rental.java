@@ -1,5 +1,7 @@
 package cz.muni.fi.pv260.videostore;
 
+import cz.muni.fi.pv260.videostore.movie.Movie;
+
 public class Rental
 {
     public Rental (Movie movie, int daysRented) {
