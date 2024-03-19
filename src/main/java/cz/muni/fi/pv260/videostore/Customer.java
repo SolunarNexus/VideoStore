@@ -3,10 +3,7 @@ package cz.muni.fi.pv260.videostore;
 import cz.muni.fi.pv260.videostore.movie.Movie;
 import javafx.util.Pair;
 
-import java.util.List;
-import java.util.Vector;
-import java.util.Enumeration;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.*;
 
 public class Customer {
     public Customer(String name) {
@@ -78,6 +75,10 @@ public class Customer {
                 .append(" frequent renter points\n");
 
         return result.toString();
+    }
+
+    public List<Rental> getRentals() {
+        return rentals.stream().toList();
     }
 
     private String name;
