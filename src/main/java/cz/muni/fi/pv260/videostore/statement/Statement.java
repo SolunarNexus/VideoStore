@@ -2,9 +2,10 @@ package cz.muni.fi.pv260.videostore.statement;
 
 import cz.muni.fi.pv260.videostore.Customer;
 import cz.muni.fi.pv260.videostore.Rental;
-import javafx.util.Pair;
 
+import java.util.AbstractMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Class holding information needed for output about user rentals
@@ -23,9 +24,9 @@ public class Statement {
         return customerName;
     }
 
-    public List<Pair<String, Double>> getMoviePrices() {
+    public List<AbstractMap.SimpleImmutableEntry<String, Double>> getMoviePrices() {
         return rentals.stream()
-                .map(rental -> new Pair<>(
+                .map(rental -> new AbstractMap.SimpleImmutableEntry<String, Double>(
                         rental.getMovie().getTitle(),
                         rental.getMovie().getRentalPrice(rental.getDaysRented())
                 ))
@@ -33,7 +34,7 @@ public class Statement {
     }
 
     public double getTotalRentalPrice(){
-        return getMoviePrices().stream().mapToDouble(Pair::getValue).sum();
+        return getMoviePrices().stream().mapToDouble(AbstractMap.SimpleImmutableEntry::getValue).sum();
     }
 
     private int getRentalFrequenterPoints(Rental rental) {
