@@ -2,7 +2,6 @@ package cz.muni.fi.pv260.videostore;
 
 import javafx.util.Pair;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,18 +9,13 @@ import java.util.List;
  */
 public class Statement {
     private final String customerName;
-    private final List<Pair<String, Double>> moviePrices;
+    //private final List<Pair<String, Double>> moviePrices;
+    private final List<Rental> rentals;
     private final int frequenterPoints;
 
     public Statement(Customer customer) {
         customerName = customer.getName();
-        moviePrices = customer.getRentals()
-                .stream()
-                .map(rental -> new Pair<>(
-                        rental.getMovie().getTitle(),
-                        rental.getMovie().getRentalPrice(rental.getDaysRented())
-                ))
-                .toList();
+        rentals = customer.getRentals();
         frequenterPoints = customer.getTotalFrequenterPoints();
     }
 
@@ -30,7 +24,12 @@ public class Statement {
     }
 
     public List<Pair<String, Double>> getMoviePrices() {
-        return new ArrayList<>(moviePrices);
+        return rentals.stream()
+                .map(rental -> new Pair<>(
+                        rental.getMovie().getTitle(),
+                        rental.getMovie().getRentalPrice(rental.getDaysRented())
+                ))
+                .toList();
     }
 
     public int getFrequenterPoints() {
