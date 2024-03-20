@@ -36,4 +36,14 @@ public class StatementTest {
         assertEquals(prices.get(1), new Pair<>("New Release Movie", 30.0));
         assertEquals(prices.get(2), new Pair<>("Children's Movie", 12.0));
     }
+
+    @Test
+    void totalFrequenterPointsMultiple(){
+        customer.addRental(new Rental(REGULAR_MOVIE, 10));
+        customer.addRental(new Rental(NEW_RELEASE_MOVIE, 10));
+        customer.addRental(new Rental(CHILDRENS_MOVIE, 10));
+
+        Statement statement = new Statement(customer);
+        assertEquals(statement.getFrequenterPoints(), 4);
+    }
 }
