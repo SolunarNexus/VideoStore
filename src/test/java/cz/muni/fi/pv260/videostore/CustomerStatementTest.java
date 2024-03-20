@@ -296,115 +296,120 @@ final class CustomerStatementTest {
     }
 
     @Test
-    void rentalMoviePriceNullMovie(){
-        assertThat(customer.getRentalPriceOf(null, 1)).isEqualTo(0);
-    }
-
-    @Test
     void rentalMoviePriceNewRelease(){
-        assertThat(customer.getRentalPriceOf(new NewReleaseMovie("Shrek"), 3)).isEqualTo(9);
+        var rental = new Rental(new NewReleaseMovie("Shrek"), 3);
+        customer.addRental(rental);
+        assertThat(customer.statement().getTotalRentalPrice()).isEqualTo(9);
     }
 
     @Test
     void rentalMoviePriceRegularLessThanThreeDays(){
-        assertThat(customer.getRentalPriceOf(new RegularMovie("Shrek"), 2)).isEqualTo(2);
+        var rental = new Rental(new RegularMovie("Shrek"), 2);
+        customer.addRental(rental);
+        assertThat(customer.statement().getTotalRentalPrice()).isEqualTo(2);
     }
 
     @Test
     void rentalMoviePriceRegularMoreThanThreeDays(){
-        assertThat(customer.getRentalPriceOf(new RegularMovie("Shrek"), 3)).isEqualTo(3.5);
+        var rental = new Rental(new RegularMovie("Shrek"), 3);
+        customer.addRental(rental);
+        assertThat(customer.statement().getTotalRentalPrice()).isEqualTo(3.5);
     }
 
     @Test
     void rentalMoviePriceChildrensLessThanFourDays(){
-        assertThat(customer.getRentalPriceOf(new ChildrenMovie("Shrek"), 3)).isEqualTo(1.5);
+        var rental = new Rental(new ChildrenMovie("Shrek"), 3);
+        customer.addRental(rental);
+        assertThat(customer.statement().getTotalRentalPrice()).isEqualTo(1.5);
     }
 
     @Test
     void rentalMoviePriceChildrensMoreThanFourDays(){
-        assertThat(customer.getRentalPriceOf(new ChildrenMovie("Shrek"), 4)).isEqualTo(3);
+        var rental = new Rental(new ChildrenMovie("Shrek"), 4);
+        customer.addRental(rental);
+        assertThat(customer.statement().getTotalRentalPrice()).isEqualTo(3);
     }
 
     @Test
     void totalRentalPriceEmpty(){
-        assertThat(customer.getTotalRentalPrice()).isEqualTo(0);
+        assertThat(customer.statement().getTotalRentalPrice()).isEqualTo(0);
     }
 
     @Test
     void totalRentalPriceRegularNegativeDays(){
         customer.addRental(new Rental(REGULAR_MOVIE, -10));
-        assertThat(customer.getTotalRentalPrice()).isEqualTo(2);
+        assertThat(customer.statement().getTotalRentalPrice()).isEqualTo(2);
     }
     @Test
     void totalRentalPriceRegularZeroDays(){
         customer.addRental(new Rental(REGULAR_MOVIE, 0));
-        assertThat(customer.getTotalRentalPrice()).isEqualTo(2);
+        assertThat(customer.statement().getTotalRentalPrice()).isEqualTo(2);
     }
 
     @Test
     void totalRentalPriceRegularFlatRate(){
         customer.addRental(new Rental(REGULAR_MOVIE, 1));
-        assertThat(customer.getTotalRentalPrice()).isEqualTo(2);
+        assertThat(customer.statement().getTotalRentalPrice()).isEqualTo(2);
     }
 
     @Test
     void totalRentalPriceRegularBoundary(){
         customer.addRental(new Rental(REGULAR_MOVIE, 2));
-        assertThat(customer.getTotalRentalPrice()).isEqualTo(2);
+        assertThat(customer.statement().getTotalRentalPrice()).isEqualTo(2);
     }
 
     @Test
     void totalRentalPriceRegularProgressiveRate(){
         customer.addRental(new Rental(REGULAR_MOVIE, 3));
-        assertThat(customer.getTotalRentalPrice()).isEqualTo(3.5);
+        assertThat(customer.statement().getTotalRentalPrice()).isEqualTo(3.5);
     }
 
     @Test
     void totalRentalPriceNewReleaseNegativeDays(){
         customer.addRental(new Rental(NEW_RELEASE_MOVIE, -10));
-        assertThat(customer.getTotalRentalPrice()).isEqualTo(-30);
+        assertThat(customer.statement().getTotalRentalPrice()).isEqualTo(-30);
     }
 
     @Test
     void totalRentalPriceNewReleaseZeroDays(){
         customer.addRental(new Rental(NEW_RELEASE_MOVIE, 0));
-        assertThat(customer.getTotalRentalPrice()).isEqualTo(0);
+        assertThat(customer.statement().getTotalRentalPrice()).isEqualTo(0);
     }
 
     @Test
     void totalRentalPriceNewReleaseNonZeroDays(){
         customer.addRental(new Rental(NEW_RELEASE_MOVIE, 5));
-        assertThat(customer.getTotalRentalPrice()).isEqualTo(15);
+        assertThat(customer.statement().getTotalRentalPrice()).isEqualTo(15);
     }
 
     @Test
     void totalRentalPriceChildrensNegativeDays(){
         customer.addRental(new Rental(CHILDRENS_MOVIE, -10));
-        assertThat(customer.getTotalRentalPrice()).isEqualTo(1.5);
+        assertThat(customer.statement().getTotalRentalPrice()).isEqualTo(1.5);
     }
 
     @Test
     void totalRentalPriceChildrensZeroDays(){
         customer.addRental(new Rental(CHILDRENS_MOVIE, 0));
-        assertThat(customer.getTotalRentalPrice()).isEqualTo(1.5);
+        assertThat(customer.statement().getTotalRentalPrice()).isEqualTo(1.5);
     }
 
     @Test
     void totalRentalPriceChildrensFlatRate(){
         customer.addRental(new Rental(CHILDRENS_MOVIE, 1));
-        assertThat(customer.getTotalRentalPrice()).isEqualTo(1.5);
+        assertThat(customer.statement().getTotalRentalPrice()).isEqualTo(1.5);
     }
 
     @Test
     void totalRentalPriceChildrensBoundary(){
         customer.addRental(new Rental(CHILDRENS_MOVIE, 3));
-        assertThat(customer.getTotalRentalPrice()).isEqualTo(1.5);
+        assertThat(customer.statement().getTotalRentalPrice()).isEqualTo(1.5);
     }
 
     @Test
     void totalRentalPriceChildrensProgressiveRate(){
         customer.addRental(new Rental(CHILDRENS_MOVIE, 4));
-        assertThat(customer.getTotalRentalPrice()).isEqualTo(3);
+        assertThat(customer.statement().getTotalRentalPrice()).isEqualTo(3);
     }
 
     @Test
@@ -412,7 +417,7 @@ final class CustomerStatementTest {
         customer.addRental(new Rental(REGULAR_MOVIE, 10));
         customer.addRental(new Rental(NEW_RELEASE_MOVIE, 10));
         customer.addRental(new Rental(CHILDRENS_MOVIE, 10));
-        assertThat(customer.getTotalRentalPrice()).isEqualTo(56);
+        assertThat(customer.statement().getTotalRentalPrice()).isEqualTo(56);
     }
 
     @Test
@@ -421,8 +426,9 @@ final class CustomerStatementTest {
         customer.addRental(regular);
         assertThat(customer.statement().getFrequenterPoints()).isEqualTo(1);
 
-        Rental childrens = new Rental(CHILDRENS_MOVIE, 10);
-        assertThat(customer.statement().getFrequenterPoints()).isEqualTo(1);
+        Rental children = new Rental(CHILDRENS_MOVIE, 10);
+        customer.addRental(regular);
+        assertThat(customer.statement().getFrequenterPoints()).isEqualTo(2);
     }
 
     @Test
