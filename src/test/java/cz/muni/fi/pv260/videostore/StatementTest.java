@@ -46,4 +46,32 @@ public class StatementTest {
         Statement statement = new Statement(customer);
         assertEquals(statement.getFrequenterPoints(), 4);
     }
+
+    @Test
+    void frequenterPointsRegularAndChildrensMovie(){
+        Rental regular = new Rental(REGULAR_MOVIE, 10);
+        assertEquals(Statement.getRentalFrequenterPoints(regular), 1);
+
+        Rental children = new Rental(CHILDRENS_MOVIE, 10);
+        assertEquals(Statement.getRentalFrequenterPoints(children), 1);
+    }
+
+    @Test
+    void frequenterPointsNewReleaseZeroDays(){
+        Rental regular = new Rental(NEW_RELEASE_MOVIE, 0);
+        assertEquals(Statement.getRentalFrequenterPoints(regular),1);
+    }
+
+    @Test
+    void frequenterPointsNewReleaseBoundary(){
+        Rental regular = new Rental(NEW_RELEASE_MOVIE, 1);
+        assertEquals(Statement.getRentalFrequenterPoints(regular), 1);
+    }
+
+    @Test
+    void frequenterPointsNewReleaseExtraPoints(){
+        Rental regular = new Rental(NEW_RELEASE_MOVIE, 2);
+        assertEquals(Statement.getRentalFrequenterPoints(regular), 2);
+    }
+
 }
