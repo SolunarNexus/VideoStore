@@ -1,5 +1,7 @@
-package cz.muni.fi.pv260.videostore;
+package cz.muni.fi.pv260.videostore.statement;
 
+import cz.muni.fi.pv260.videostore.Customer;
+import cz.muni.fi.pv260.videostore.Rental;
 import javafx.util.Pair;
 
 import java.util.List;
@@ -30,7 +32,11 @@ public class Statement {
                 .toList();
     }
 
-    public static int getRentalFrequenterPoints(Rental rental) {
+    public double getTotalRentalPrice(){
+        return getMoviePrices().stream().mapToDouble(Pair::getValue).sum();
+    }
+
+    private int getRentalFrequenterPoints(Rental rental) {
         return (rental.getMovie().countsToFrequentPoints() && rental.getDaysRented() > 1) ? 2 : 1;
     }
 

@@ -4,6 +4,7 @@ import cz.muni.fi.pv260.videostore.movie.Movie;
 import cz.muni.fi.pv260.videostore.movie.ChildrenMovie;
 import cz.muni.fi.pv260.videostore.movie.NewReleaseMovie;
 import cz.muni.fi.pv260.videostore.movie.RegularMovie;
+import cz.muni.fi.pv260.videostore.statement.ASCIIStatementFormatter;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -284,14 +285,14 @@ final class CustomerStatementTest {
     void nullMovie() {
         customer.addRental(new Rental(null, 4));
 
-        assertThrows(NullPointerException.class, () -> customer.statement());
+        assertThrows(NullPointerException.class, () -> customer.statement().getMoviePrices());
     }
 
     @Test
     void nullRental() {
         customer.addRental(null);
 
-        assertThrows(NullPointerException.class, () -> customer.statement());
+        assertThrows(NullPointerException.class, () -> customer.statement().getMoviePrices());
     }
 
     @Test
@@ -417,28 +418,32 @@ final class CustomerStatementTest {
     @Test
     void frequenterPointsRegularAndChildrensMovie(){
         Rental regular = new Rental(REGULAR_MOVIE, 10);
-        assertThat(customer.getFrequenterPoints(regular)).isEqualTo(1);
+        customer.addRental(regular);
+        assertThat(customer.statement().getFrequenterPoints()).isEqualTo(1);
 
         Rental childrens = new Rental(CHILDRENS_MOVIE, 10);
-        assertThat(customer.getFrequenterPoints(childrens)).isEqualTo(1);
+        assertThat(customer.statement().getFrequenterPoints()).isEqualTo(1);
     }
 
     @Test
     void frequenterPointsNewReleaseZeroDays(){
         Rental regular = new Rental(NEW_RELEASE_MOVIE, 0);
-        assertThat(customer.getFrequenterPoints(regular)).isEqualTo(1);
+        customer.addRental(regular);
+        assertThat(customer.statement().getFrequenterPoints()).isEqualTo(1);
     }
 
     @Test
     void frequenterPointsNewReleaseBoundary(){
         Rental regular = new Rental(NEW_RELEASE_MOVIE, 1);
-        assertThat(customer.getFrequenterPoints(regular)).isEqualTo(1);
+        customer.addRental(regular);
+        assertThat(customer.statement().getFrequenterPoints()).isEqualTo(1);
     }
 
     @Test
     void frequenterPointsNewReleaseExtraPoints(){
         Rental regular = new Rental(NEW_RELEASE_MOVIE, 2);
-        assertThat(customer.getFrequenterPoints(regular)).isEqualTo(2);
+        customer.addRental(regular);
+        assertThat(customer.statement().getFrequenterPoints()).isEqualTo(2);
     }
 
     @Test
@@ -446,10 +451,10 @@ final class CustomerStatementTest {
         customer.addRental(new Rental(REGULAR_MOVIE, 10));
         customer.addRental(new Rental(NEW_RELEASE_MOVIE, 10));
         customer.addRental(new Rental(CHILDRENS_MOVIE, 10));
-        assertThat(customer.getTotalFrequenterPoints()).isEqualTo(4);
+        assertThat(customer.statement().getFrequenterPoints()).isEqualTo(4);
     }
 
     private void assertStatement(String expectedStatement) {
-        assertEquals(expectedStatement, customer.statement());
+        assertEquals(expectedStatement, new ASCIIStatementFormatter().formatStatement(customer.statement()));
     }
 }
