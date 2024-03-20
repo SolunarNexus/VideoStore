@@ -11,12 +11,10 @@ public class Statement {
     private final String customerName;
     //private final List<Pair<String, Double>> moviePrices;
     private final List<Rental> rentals;
-    private final int frequenterPoints;
 
     public Statement(Customer customer) {
         customerName = customer.getName();
         rentals = customer.getRentals();
-        frequenterPoints = customer.getTotalFrequenterPoints();
     }
 
     public String getCustomerName() {
@@ -32,7 +30,16 @@ public class Statement {
                 .toList();
     }
 
+    public static int getRentalFrequenterPoints(Rental rental) {
+        return (rental.getMovie().countsToFrequentPoints() && rental.getDaysRented() > 1) ? 2 : 1;
+    }
+
     public int getFrequenterPoints() {
-        return frequenterPoints;
+        int points = 0;
+
+        for (Rental rental : this.rentals) {
+            points += getRentalFrequenterPoints(rental);
+        }
+        return points;
     }
 }

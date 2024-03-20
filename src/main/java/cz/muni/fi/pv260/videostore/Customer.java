@@ -18,10 +18,12 @@ public class Customer {
         return name;
     }
 
+    @Deprecated
     public int getFrequenterPoints(Rental rental) {
         return (rental.getMovie().countsToFrequentPoints() && rental.getDaysRented() > 1) ? 2 : 1;
     }
 
+    @Deprecated
     public int getTotalFrequenterPoints() {
         int points = 0;
 
