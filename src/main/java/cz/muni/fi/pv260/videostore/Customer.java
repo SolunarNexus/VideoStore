@@ -43,8 +43,19 @@ public class Customer
         return price;
     }
 
+    double getTotalRentalPrice(){
+        double total = 0;
+
+        for (Rental rental : this.rentals) {
+            total += getPriceOf(rental.getMovie(), rental.getDaysRented());
+        }
+
+        return total;
+    }
+
+
     public String statement () {
-        double      totalAmount             = 0;
+        double      totalAmount             = getTotalRentalPrice();
         int         frequentRenterPoints    = 0;
         Enumeration rentals                 = this.rentals.elements ();
         String      result                  = "Rental Record for " + getName () + "\n";
@@ -61,17 +72,13 @@ public class Customer
 
             result += "\t" + each.getMovie ().getTitle () + "\t"
                     + String.valueOf (thisAmount) + "\n";
-            totalAmount += thisAmount;
-
         }
 
         result += "You owed " + String.valueOf (totalAmount) + "\n";
         result += "You earned " + String.valueOf (frequentRenterPoints) + " frequent renter points\n";
 
-
         return result;
     }
-
 
     private String name;
     private final Vector<Rental> rentals = new Vector<>();
