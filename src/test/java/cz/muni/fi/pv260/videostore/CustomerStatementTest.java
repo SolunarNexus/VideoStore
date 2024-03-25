@@ -63,6 +63,14 @@ final class CustomerStatementTest {
     }
 
     @Test
+    void totalRentalPriceForMultipleMovies(){
+        customer.addRental(new Rental(REGULAR_MOVIE, 10));
+        customer.addRental(new Rental(NEW_RELEASE_MOVIE, 10));
+        customer.addRental(new Rental(CHILDRENS_MOVIE, 10));
+        assertEquals(56, customer.getTotalRentalPrice());
+    }
+
+    @Test
     void noRentals() {
         assertStatement("""
                 Rental Record for John Doe
