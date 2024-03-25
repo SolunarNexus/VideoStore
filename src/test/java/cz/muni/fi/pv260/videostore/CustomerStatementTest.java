@@ -14,6 +14,16 @@ final class CustomerStatementTest {
     private Customer customer = new Customer("John Doe");
 
     @Test
+    void individualMoviePriceNullMovie(){
+        assertEquals(0, customer.getPriceOf(null, 2));
+    }
+
+    @Test
+    void individualMoviePriceRegularFlatRate(){
+        assertEquals(2, customer.getPriceOf(REGULAR_MOVIE, 1));
+    }
+
+    @Test
     void noRentals() {
         assertStatement("""
                 Rental Record for John Doe
