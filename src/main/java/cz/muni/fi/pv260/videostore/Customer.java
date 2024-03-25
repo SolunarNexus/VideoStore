@@ -64,16 +64,25 @@ public class Customer
         return 1;
     }
 
+    int getTotalFrequenterPoints() {
+        int points = 0;
+
+        for (Rental rental : this.rentals) {
+            points += getFrequenterPoints(rental);
+        }
+        return points;
+    }
+
+
     public String statement () {
         double      totalAmount             = getTotalRentalPrice();
-        int         frequentRenterPoints    = 0;
+        int         frequentRenterPoints    = getTotalFrequenterPoints();
         Enumeration rentals                 = this.rentals.elements ();
         String      result                  = "Rental Record for " + getName () + "\n";
 
         while (rentals.hasMoreElements ()) {
             Rental  currentRental = (Rental)rentals.nextElement ();
             double  thisAmount = getPriceOf(currentRental.getMovie(), currentRental.getDaysRented());
-            frequentRenterPoints += getFrequenterPoints(currentRental);
 
             result += "\t" + currentRental.getMovie ().getTitle () + "\t"
                     + String.valueOf (thisAmount) + "\n";
