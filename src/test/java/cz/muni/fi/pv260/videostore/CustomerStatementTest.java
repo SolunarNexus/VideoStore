@@ -71,6 +71,11 @@ final class CustomerStatementTest {
     }
 
     @Test
+    void frequenterPointsNullRental(){
+        assertEquals(0, customer.getFrequenterPoints(null));
+    }
+
+    @Test
     void noRentals() {
         assertStatement("""
                 Rental Record for John Doe
