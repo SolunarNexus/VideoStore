@@ -52,6 +52,11 @@ final class CustomerStatementTest {
     }
 
     @Test
+    void individualMoviePriceChildrenFlatRateEdgeCase(){
+        assertEquals(1.5, customer.getPriceOf(CHILDRENS_MOVIE, 3));
+    }
+
+    @Test
     void noRentals() {
         assertStatement("""
                 Rental Record for John Doe
