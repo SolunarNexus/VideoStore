@@ -57,6 +57,12 @@ final class CustomerStatementTest {
     }
 
     @Test
+    void individualMoviePriceChildrenProgressiveRate(){
+        assertEquals(3, customer.getPriceOf(CHILDRENS_MOVIE, 4));
+        assertEquals(4.5, customer.getPriceOf(CHILDRENS_MOVIE, 5));
+    }
+
+    @Test
     void noRentals() {
         assertStatement("""
                 Rental Record for John Doe
