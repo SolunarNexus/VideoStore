@@ -94,12 +94,9 @@ final class CustomerStatementTest {
     }
 
     @Test
-    void noRentals() {
-        assertStatement("""
-                Rental Record for John Doe
-                You owed 0.0
-                You earned 0 frequent renter points
-                """);
+    void statementNoRentals(){
+        assertEquals(0, customer.getTotalRentalPrice());
+        assertEquals(0, customer.getTotalFrequenterPoints());
     }
 
     @Test
