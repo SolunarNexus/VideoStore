@@ -35,6 +35,15 @@ final class CustomerStatementTest {
         assertEquals(3.5, customer.getPriceOf(REGULAR_MOVIE, 3));
         assertEquals(5, customer.getPriceOf(REGULAR_MOVIE, 4));
     }
+    
+    @Test
+    void individualMoviePriceNewRelease(){
+        assertEquals(-3, customer.getPriceOf(NEW_RELEASE_MOVIE, -1));
+        assertEquals(0, customer.getPriceOf(NEW_RELEASE_MOVIE, 0));
+        assertEquals(3, customer.getPriceOf(NEW_RELEASE_MOVIE, 1));
+        assertEquals(6, customer.getPriceOf(NEW_RELEASE_MOVIE, 2));
+
+    }
 
     @Test
     void noRentals() {
