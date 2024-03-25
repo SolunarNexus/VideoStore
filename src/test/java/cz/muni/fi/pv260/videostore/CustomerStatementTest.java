@@ -84,6 +84,12 @@ final class CustomerStatementTest {
     }
 
     @Test
+    void frequenterPointsExtraAmount(){
+        assertEquals(2, customer.getFrequenterPoints(new Rental(NEW_RELEASE_MOVIE, 2)));
+        assertEquals(2, customer.getFrequenterPoints(new Rental(NEW_RELEASE_MOVIE, 5)));
+    }
+
+    @Test
     void noRentals() {
         assertStatement("""
                 Rental Record for John Doe
