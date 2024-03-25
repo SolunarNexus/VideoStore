@@ -80,7 +80,11 @@ final class CustomerStatementTest {
         assertEquals(1, customer.getFrequenterPoints(new Rental(REGULAR_MOVIE, 5)));
         assertEquals(1, customer.getFrequenterPoints(new Rental(CHILDRENS_MOVIE, 5)));
         assertEquals(1, customer.getFrequenterPoints(new Rental(NEW_RELEASE_MOVIE, 0)));
-        assertEquals(1, customer.getFrequenterPoints(new Rental(REGULAR_MOVIE, 1)));
+    }
+
+    @Test
+    void frequenterPointsBasicAmountEdgeCase(){
+        assertEquals(1, customer.getFrequenterPoints(new Rental(NEW_RELEASE_MOVIE, 1)));
     }
 
     @Test
