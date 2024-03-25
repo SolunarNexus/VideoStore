@@ -20,6 +20,8 @@ final class CustomerStatementTest {
 
     @Test
     void individualMoviePriceRegularFlatRate(){
+        assertEquals(2, customer.getPriceOf(REGULAR_MOVIE, -1));
+        assertEquals(2, customer.getPriceOf(REGULAR_MOVIE, 0));
         assertEquals(2, customer.getPriceOf(REGULAR_MOVIE, 1));
     }
 
