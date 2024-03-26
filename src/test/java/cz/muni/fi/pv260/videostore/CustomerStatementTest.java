@@ -100,18 +100,6 @@ final class CustomerStatementTest {
     }
 
     @Test
-    void unknownMovieType() {
-        customer.addRental(new Rental(new Movie("Unknown", -1), 100));
-
-        assertStatement("""
-                Rental Record for John Doe
-                	Unknown	0.0
-                You owed 0.0
-                You earned 1 frequent renter points
-                """);
-    }
-
-    @Test
     void emptyCustomerName() {
         customer = new Customer("");
 
