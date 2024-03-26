@@ -39,10 +39,7 @@ public class Customer
             return 0;
         }
 
-        if (rental.getMovie().getPriceCode() == Movie.NEW_RELEASE && rental.getDaysRented() > 1) {
-            return 2;
-        }
-        return 1;
+        return rental.getMovie().getFrequenterPoints(rental.getDaysRented());
     }
 
     int getTotalFrequenterPoints() {
