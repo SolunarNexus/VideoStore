@@ -2,7 +2,7 @@ package cz.muni.fi.pv260.videostore;
 
 public class ChildrenMovie extends Movie {
     public ChildrenMovie(String title) {
-        super(title, Movie.CHILDRENS);
+        super(title);
     }
 
     @Override
