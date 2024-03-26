@@ -6,6 +6,11 @@ public abstract class Movie {
         this.title = title;
     }
 
+    /**
+     * Method calculates price for renting movie for specific number of days
+     * @param daysRented int number of days movie was rented for
+     * @return price for the rent period
+     */
     public abstract double getPriceOf(int daysRented);
 
     int getFrequenterPoints(int daysRented) {
