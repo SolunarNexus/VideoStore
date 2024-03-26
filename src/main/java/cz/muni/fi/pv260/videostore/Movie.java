@@ -1,22 +1,20 @@
 package cz.muni.fi.pv260.videostore;
 
-public class Movie
-{
-    public static final int CHILDRENS   = 2;
-    public static final int REGULAR     = 0;
-    public static final int NEW_RELEASE = 1;
+public abstract class Movie {
 
-    public Movie (String title, int priceCode) {
-        this.title      = title;
-        this.priceCode  = priceCode;
+    public Movie (String title) {
+        this.title = title;
     }
 
-    public int getPriceCode () {
-        return priceCode;
-    }
+    /**
+     * Method calculates price for renting movie for specific number of days
+     * @param daysRented int number of days movie was rented for
+     * @return price for the rent period
+     */
+    public abstract double getPriceOf(int daysRented);
 
-    public void setPriceCode (int code) {
-        priceCode = code;
+    int getFrequenterPoints(int daysRented) {
+        return 1;
     }
 
     public String getTitle () {
@@ -24,5 +22,4 @@ public class Movie
     }
 
     private String title;
-    private int priceCode;
 }

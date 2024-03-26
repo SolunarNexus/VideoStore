@@ -21,26 +21,7 @@ public class Customer
         if (movie == null){
             return 0;
         }
-        double price;
-
-        switch (movie.getPriceCode()){
-            case Movie.REGULAR:
-                price = 2;
-                if (daysRented > 2)
-                    price += (daysRented - 2) * 1.5;
-                break;
-            case Movie.NEW_RELEASE:
-                price = daysRented * 3;
-                break;
-            case Movie.CHILDRENS:
-                price = 1.5;
-                if (daysRented > 3)
-                    price += (daysRented - 3) * 1.5;
-                break;
-            default:
-                return 0;
-        }
-        return price;
+        return movie.getPriceOf(daysRented);
     }
 
     double getTotalRentalPrice(){
@@ -58,10 +39,7 @@ public class Customer
             return 0;
         }
 
-        if (rental.getMovie().getPriceCode() == Movie.NEW_RELEASE && rental.getDaysRented() > 1) {
-            return 2;
-        }
-        return 1;
+        return rental.getMovie().getFrequenterPoints(rental.getDaysRented());
     }
 
     int getTotalFrequenterPoints() {
