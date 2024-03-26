@@ -35,9 +35,6 @@ public class Movie
     }
 
     int getFrequenterPoints(int daysRented) {
-        if (getPriceCode() == Movie.NEW_RELEASE && daysRented > 1) {
-            return 2;
-        }
         return 1;
     }
 
