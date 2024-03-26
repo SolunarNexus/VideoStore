@@ -14,196 +14,89 @@ final class CustomerStatementTest {
     private Customer customer = new Customer("John Doe");
 
     @Test
-    void noRentals() {
-        assertStatement("""
-                Rental Record for John Doe
-                You owed 0.0
-                You earned 0 frequent renter points
-                """);
+    void individualMoviePriceNullMovie(){
+        assertEquals(0, customer.getPriceOf(null, 2));
     }
 
     @Test
-    void regularMovieZeroDays() {
-        customer.addRental(new Rental(REGULAR_MOVIE, 0));
-
-        assertStatement("""
-                Rental Record for John Doe
-                	Regular Movie	2.0
-                You owed 2.0
-                You earned 1 frequent renter points
-                """);
+    void individualMoviePriceRegularFlatRate(){
+        assertEquals(2, customer.getPriceOf(REGULAR_MOVIE, -1));
+        assertEquals(2, customer.getPriceOf(REGULAR_MOVIE, 0));
+        assertEquals(2, customer.getPriceOf(REGULAR_MOVIE, 1));
     }
 
     @Test
-    void regularMovieFlatRate() {
-        customer.addRental(new Rental(REGULAR_MOVIE, 1));
-
-        assertStatement("""
-                Rental Record for John Doe
-                	Regular Movie	2.0
-                You owed 2.0
-                You earned 1 frequent renter points
-                """);
+    void individualMoviePriceRegularFlatRateEdgeCase(){
+        assertEquals(2, customer.getPriceOf(REGULAR_MOVIE, 2));
     }
 
     @Test
-    void regularMovieFlatRateOnBoundary() {
-        customer.addRental(new Rental(REGULAR_MOVIE, 2));
-
-        assertStatement("""
-                Rental Record for John Doe
-                	Regular Movie	2.0
-                You owed 2.0
-                You earned 1 frequent renter points
-                """);
+    void individualMoviePriceRegularProgressiveRate(){
+        assertEquals(3.5, customer.getPriceOf(REGULAR_MOVIE, 3));
+        assertEquals(5, customer.getPriceOf(REGULAR_MOVIE, 4));
+    }
+    
+    @Test
+    void individualMoviePriceNewRelease(){
+        assertEquals(-3, customer.getPriceOf(NEW_RELEASE_MOVIE, -1));
+        assertEquals(0, customer.getPriceOf(NEW_RELEASE_MOVIE, 0));
+        assertEquals(3, customer.getPriceOf(NEW_RELEASE_MOVIE, 1));
+        assertEquals(6, customer.getPriceOf(NEW_RELEASE_MOVIE, 2));
     }
 
     @Test
-    void regularMovieProgressiveRate() {
-        customer.addRental(new Rental(REGULAR_MOVIE, 3));
-
-        assertStatement("""
-                Rental Record for John Doe
-                	Regular Movie	3.5
-                You owed 3.5
-                You earned 1 frequent renter points
-                """);
+    void individualMoviePriceChildrenFlatRate(){
+        assertEquals(1.5, customer.getPriceOf(CHILDRENS_MOVIE, -1));
+        assertEquals(1.5, customer.getPriceOf(CHILDRENS_MOVIE, 0));
+        assertEquals(1.5, customer.getPriceOf(CHILDRENS_MOVIE, 1));
     }
 
     @Test
-    void newReleaseMovieZeroDays() {
-        customer.addRental(new Rental(NEW_RELEASE_MOVIE, 0));
-
-        assertStatement("""
-                Rental Record for John Doe
-                	New Release Movie	0.0
-                You owed 0.0
-                You earned 1 frequent renter points
-                """);
+    void individualMoviePriceChildrenFlatRateEdgeCase(){
+        assertEquals(1.5, customer.getPriceOf(CHILDRENS_MOVIE, 3));
     }
 
     @Test
-    void newReleaseMovieBasicPoints() {
-        customer.addRental(new Rental(NEW_RELEASE_MOVIE, 1));
-
-        assertStatement("""
-                Rental Record for John Doe
-                	New Release Movie	3.0
-                You owed 3.0
-                You earned 1 frequent renter points
-                """);
+    void individualMoviePriceChildrenProgressiveRate(){
+        assertEquals(3, customer.getPriceOf(CHILDRENS_MOVIE, 4));
+        assertEquals(4.5, customer.getPriceOf(CHILDRENS_MOVIE, 5));
     }
 
     @Test
-    void newReleaseMovieExtraPoints() {
-        customer.addRental(new Rental(NEW_RELEASE_MOVIE, 2));
-
-        assertStatement("""
-                Rental Record for John Doe
-                	New Release Movie	6.0
-                You owed 6.0
-                You earned 2 frequent renter points
-                """);
-    }
-
-    @Test
-    void childrensMovieZeroDays() {
-        customer.addRental(new Rental(CHILDRENS_MOVIE, 0));
-
-        assertStatement("""
-                Rental Record for John Doe
-                	Children's Movie	1.5
-                You owed 1.5
-                You earned 1 frequent renter points
-                """);
-    }
-
-    @Test
-    void childrensMovieFlatRate() {
-        customer.addRental(new Rental(CHILDRENS_MOVIE, 1));
-
-        assertStatement("""
-                Rental Record for John Doe
-                	Children's Movie	1.5
-                You owed 1.5
-                You earned 1 frequent renter points
-                """);
-    }
-
-    @Test
-    void childrensMovieFlatRateOnBoundary() {
-        customer.addRental(new Rental(CHILDRENS_MOVIE, 3));
-
-        assertStatement("""
-                Rental Record for John Doe
-                	Children's Movie	1.5
-                You owed 1.5
-                You earned 1 frequent renter points
-                """);
-    }
-
-    @Test
-    void childrensMovieProgressiveRate() {
-        customer.addRental(new Rental(CHILDRENS_MOVIE, 4));
-
-        assertStatement("""
-                Rental Record for John Doe
-                	Children's Movie	3.0
-                You owed 3.0
-                You earned 1 frequent renter points
-                """);
-    }
-
-    @Test
-    void multipleMoviesOrderAndTotals() {
+    void totalRentalPriceForMultipleMovies(){
         customer.addRental(new Rental(REGULAR_MOVIE, 10));
         customer.addRental(new Rental(NEW_RELEASE_MOVIE, 10));
         customer.addRental(new Rental(CHILDRENS_MOVIE, 10));
-
-        assertStatement("""
-                Rental Record for John Doe
-                	Regular Movie	14.0
-                	New Release Movie	30.0
-                	Children's Movie	12.0
-                You owed 56.0
-                You earned 4 frequent renter points
-                """);
+        assertEquals(56, customer.getTotalRentalPrice());
     }
 
     @Test
-    void regularMovieNegativeDays() {
-        customer.addRental(new Rental(REGULAR_MOVIE, -10));
-
-        assertStatement("""
-                Rental Record for John Doe
-                	Regular Movie	2.0
-                You owed 2.0
-                You earned 1 frequent renter points
-                """);
+    void frequenterPointsNullRental(){
+        assertEquals(0, customer.getFrequenterPoints(null));
     }
 
     @Test
-    void newReleaseMovieNegativeDays() {
-        customer.addRental(new Rental(NEW_RELEASE_MOVIE, -10));
-
-        assertStatement("""
-                Rental Record for John Doe
-                	New Release Movie	-30.0
-                You owed -30.0
-                You earned 1 frequent renter points
-                """);
+    void frequenterPointsBasicAmount(){
+        assertEquals(1, customer.getFrequenterPoints(new Rental(REGULAR_MOVIE, 5)));
+        assertEquals(1, customer.getFrequenterPoints(new Rental(CHILDRENS_MOVIE, 5)));
+        assertEquals(1, customer.getFrequenterPoints(new Rental(NEW_RELEASE_MOVIE, 0)));
     }
 
     @Test
-    void childrensMovieNegativeDays() {
-        customer.addRental(new Rental(CHILDRENS_MOVIE, -10));
+    void frequenterPointsBasicAmountEdgeCase(){
+        assertEquals(1, customer.getFrequenterPoints(new Rental(NEW_RELEASE_MOVIE, 1)));
+    }
 
-        assertStatement("""
-                Rental Record for John Doe
-                	Children's Movie	1.5
-                You owed 1.5
-                You earned 1 frequent renter points
-                """);
+    @Test
+    void frequenterPointsExtraAmount(){
+        assertEquals(2, customer.getFrequenterPoints(new Rental(NEW_RELEASE_MOVIE, 2)));
+        assertEquals(2, customer.getFrequenterPoints(new Rental(NEW_RELEASE_MOVIE, 5)));
+    }
+
+    @Test
+    void statementNoRentals(){
+        assertEquals(0, customer.getTotalRentalPrice());
+        assertEquals(0, customer.getTotalFrequenterPoints());
     }
 
     @Test
