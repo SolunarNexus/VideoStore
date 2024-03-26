@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 final class CustomerStatementTest {
 
     private static final Movie REGULAR_MOVIE = new Movie("Regular Movie", Movie.REGULAR);
-    private static final Movie NEW_RELEASE_MOVIE = new Movie("New Release Movie", Movie.NEW_RELEASE);
+    private static final Movie NEW_RELEASE_MOVIE = new NewReleaseMovie("New Release Movie");
     private static final Movie CHILDRENS_MOVIE = new ChildrenMovie("Children's Movie");
 
     private Customer customer = new Customer("John Doe");

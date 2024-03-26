@@ -1,7 +1,4 @@
-import cz.muni.fi.pv260.videostore.ChildrenMovie;
-import cz.muni.fi.pv260.videostore.Customer;
-import cz.muni.fi.pv260.videostore.Movie;
-import cz.muni.fi.pv260.videostore.Rental;
+import cz.muni.fi.pv260.videostore.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,7 +31,7 @@ public final class Main {
         return List.of(
                 new Rental(new Movie("Alien", Movie.REGULAR), 1),
                 new Rental(new ChildrenMovie("Lion King"), 2),
-                new Rental(new Movie("Titanic", Movie.NEW_RELEASE), 3)
+                new Rental(new NewReleaseMovie("Titanic"), 3)
         );
     }
 
