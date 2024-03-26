@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 final class CustomerStatementTest {
 
-    private static final Movie REGULAR_MOVIE = new Movie("Regular Movie", Movie.REGULAR);
+    private static final Movie REGULAR_MOVIE = new RegularMovie("Regular Movie");
     private static final Movie NEW_RELEASE_MOVIE = new NewReleaseMovie("New Release Movie");
     private static final Movie CHILDRENS_MOVIE = new ChildrenMovie("Children's Movie");
 
@@ -146,7 +146,7 @@ final class CustomerStatementTest {
 
     @Test
     void emptyMovieName() {
-        customer.addRental(new Rental(new Movie("", Movie.REGULAR), 4));
+        customer.addRental(new Rental(new RegularMovie(""), 4));
 
         assertStatement("""
                 Rental Record for John Doe
@@ -158,7 +158,7 @@ final class CustomerStatementTest {
 
     @Test
     void nullMovieName() {
-        customer.addRental(new Rental(new Movie(null, Movie.REGULAR), 4));
+        customer.addRental(new Rental(new RegularMovie(null), 4));
 
         assertStatement("""
                 Rental Record for John Doe
@@ -170,7 +170,7 @@ final class CustomerStatementTest {
 
     @Test
     void unicodeMovieName() {
-        customer.addRental(new Rental(new Movie("Příběhy obyčejného šílenství", Movie.REGULAR), 4));
+        customer.addRental(new Rental(new RegularMovie("Příběhy obyčejného šílenství"), 4));
 
         assertStatement("""
                 Rental Record for John Doe
