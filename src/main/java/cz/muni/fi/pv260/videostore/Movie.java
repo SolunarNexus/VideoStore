@@ -11,7 +11,7 @@ public abstract class Movie {
      * @param daysRented int number of days movie was rented for
      * @return price for the rent period
      */
-    public abstract double getPriceOf(int daysRented);
+    abstract double getPriceOf(int daysRented);
 
     int getFrequenterPoints(int daysRented) {
         return 1;
