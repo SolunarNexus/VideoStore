@@ -70,5 +70,15 @@ public class FilmTest {
         assertEquals(2, NEW_RELEASE_MOVIE.getFrequenterPoints(2));
         assertEquals(2, NEW_RELEASE_MOVIE.getFrequenterPoints(5));
     }
+
+    @Test
+    void newReleaseMovieNegativeDays() {
+        assertEquals(-30,NEW_RELEASE_MOVIE.getPriceOf(-10));
+    }
+
+    @Test
+    void childrensMovieNegativeDays() {
+        assertEquals(1.5,CHILDRENS_MOVIE.getPriceOf(-10));
+    }
 }
 
