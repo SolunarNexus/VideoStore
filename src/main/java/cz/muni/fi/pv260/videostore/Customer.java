@@ -17,18 +17,11 @@ public class Customer
         return name;
     }
 
-    double getPriceOf(Movie movie, int daysRented){
-        if (movie == null){
-            return 0;
-        }
-        return movie.getPriceOf(daysRented);
-    }
-
     double getTotalRentalPrice(){
         double total = 0;
 
         for (Rental rental : this.rentals) {
-            total += getPriceOf(rental.getMovie(), rental.getDaysRented());
+            total += rental.getMovie().getPriceOf(rental.getDaysRented());
         }
 
         return total;
@@ -60,7 +53,7 @@ public class Customer
 
         while (rentals.hasMoreElements ()) {
             Rental  currentRental = (Rental)rentals.nextElement ();
-            double  thisAmount = getPriceOf(currentRental.getMovie(), currentRental.getDaysRented());
+            double  thisAmount = currentRental.getMovie().getPriceOf(currentRental.getDaysRented());
 
             result += "\t" + currentRental.getMovie ().getTitle () + "\t"
                     + String.valueOf (thisAmount) + "\n";
