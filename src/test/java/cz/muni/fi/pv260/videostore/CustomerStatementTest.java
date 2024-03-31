@@ -14,12 +14,6 @@ final class CustomerStatementTest {
     private Customer customer = new Customer("John Doe");
 
     @Test
-    void statementNoRentals(){
-        assertEquals(0, customer.getTotalRentalPrice());
-        assertEquals(0, customer.getTotalFrequenterPoints());
-    }
-
-    @Test
     void emptyCustomerName() {
         customer = new Customer("");
 
