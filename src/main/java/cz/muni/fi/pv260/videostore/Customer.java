@@ -27,19 +27,11 @@ public class Customer
         return total;
     }
 
-    int getFrequenterPoints(Rental rental) {
-        if (rental == null){
-            return 0;
-        }
-
-        return rental.getMovie().getFrequenterPoints(rental.getDaysRented());
-    }
-
     int getTotalFrequenterPoints() {
         int points = 0;
 
         for (Rental rental : this.rentals) {
-            points += getFrequenterPoints(rental);
+            points += rental.getMovie().getFrequenterPoints(rental.getDaysRented());
         }
         return points;
     }
