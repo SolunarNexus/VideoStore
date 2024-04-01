@@ -1,5 +1,6 @@
 package cz.muni.fi.pv260.videostore;
 
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -11,9 +12,11 @@ public class FilmTest {
 
     @Test
     void individualMoviePriceRegularFlatRate(){
-        assertEquals(2, REGULAR_MOVIE.getPriceOf( -1));
-        assertEquals(2, REGULAR_MOVIE.getPriceOf( 0));
-        assertEquals(2, REGULAR_MOVIE.getPriceOf(1));
+        SoftAssertions softly = new SoftAssertions();
+        softly.assertThat(REGULAR_MOVIE.getPriceOf(-1)).isEqualTo(2);
+        softly.assertThat(REGULAR_MOVIE.getPriceOf(0)).isEqualTo(2);
+        softly.assertThat(REGULAR_MOVIE.getPriceOf(1)).isEqualTo(2);
+        softly.assertAll();
     }
 
     @Test
@@ -23,23 +26,29 @@ public class FilmTest {
 
     @Test
     void individualMoviePriceRegularProgressiveRate(){
-        assertEquals(3.5, REGULAR_MOVIE.getPriceOf(3));
-        assertEquals(5, REGULAR_MOVIE.getPriceOf( 4));
+        SoftAssertions softly = new SoftAssertions();
+        softly.assertThat(REGULAR_MOVIE.getPriceOf(3)).isEqualTo(3.5);
+        softly.assertThat(REGULAR_MOVIE.getPriceOf(4)).isEqualTo(5);
+        softly.assertAll();
     }
 
     @Test
     void individualMoviePriceNewRelease(){
-        assertEquals(-3, NEW_RELEASE_MOVIE.getPriceOf(-1));
-        assertEquals(0, NEW_RELEASE_MOVIE.getPriceOf(0));
-        assertEquals(3, NEW_RELEASE_MOVIE.getPriceOf(1));
-        assertEquals(6, NEW_RELEASE_MOVIE.getPriceOf( 2));
+        SoftAssertions softly = new SoftAssertions();
+        softly.assertThat(NEW_RELEASE_MOVIE.getPriceOf(-1)).isEqualTo(-3);
+        softly.assertThat(NEW_RELEASE_MOVIE.getPriceOf(0)).isEqualTo(0);
+        softly.assertThat(NEW_RELEASE_MOVIE.getPriceOf(1)).isEqualTo(3);
+        softly.assertThat(NEW_RELEASE_MOVIE.getPriceOf(2)).isEqualTo(6);
+        softly.assertAll();
     }
 
     @Test
     void individualMoviePriceChildrenFlatRate(){
-        assertEquals(1.5, CHILDRENS_MOVIE.getPriceOf(-1));
-        assertEquals(1.5, CHILDRENS_MOVIE.getPriceOf(0));
-        assertEquals(1.5, CHILDRENS_MOVIE.getPriceOf(1));
+        SoftAssertions softly = new SoftAssertions();
+        softly.assertThat(CHILDRENS_MOVIE.getPriceOf(-1)).isEqualTo(1.5);
+        softly.assertThat(CHILDRENS_MOVIE.getPriceOf(0)).isEqualTo(1.5);
+        softly.assertThat(CHILDRENS_MOVIE.getPriceOf(1)).isEqualTo(1.5);
+        softly.assertAll();
     }
 
     @Test
@@ -49,15 +58,19 @@ public class FilmTest {
 
     @Test
     void individualMoviePriceChildrenProgressiveRate(){
-        assertEquals(3, CHILDRENS_MOVIE.getPriceOf(4));
-        assertEquals(4.5, CHILDRENS_MOVIE.getPriceOf(5));
+        SoftAssertions softly = new SoftAssertions();
+        softly.assertThat(CHILDRENS_MOVIE.getPriceOf(4)).isEqualTo(3);
+        softly.assertThat(CHILDRENS_MOVIE.getPriceOf(5)).isEqualTo(4.5);
+        softly.assertAll();
     }
 
     @Test
     void frequenterPointsBasicAmount(){
-        assertEquals(1, REGULAR_MOVIE.getFrequenterPoints(5));
-        assertEquals(1, CHILDRENS_MOVIE.getFrequenterPoints(5));
-        assertEquals(1, NEW_RELEASE_MOVIE.getFrequenterPoints( 0));
+        SoftAssertions softly = new SoftAssertions();
+        softly.assertThat(REGULAR_MOVIE.getFrequenterPoints(5)).isEqualTo(1);
+        softly.assertThat(CHILDRENS_MOVIE.getFrequenterPoints(5)).isEqualTo(1);
+        softly.assertThat(NEW_RELEASE_MOVIE.getFrequenterPoints(0)).isEqualTo(1);
+        softly.assertAll();
     }
 
     @Test
@@ -67,8 +80,10 @@ public class FilmTest {
 
     @Test
     void frequenterPointsExtraAmount(){
-        assertEquals(2, NEW_RELEASE_MOVIE.getFrequenterPoints(2));
-        assertEquals(2, NEW_RELEASE_MOVIE.getFrequenterPoints(5));
+        SoftAssertions softly = new SoftAssertions();
+        softly.assertThat(NEW_RELEASE_MOVIE.getFrequenterPoints(2)).isEqualTo(2);
+        softly.assertThat(NEW_RELEASE_MOVIE.getFrequenterPoints(5)).isEqualTo(2);
+        softly.assertAll();
     }
 
     @Test
