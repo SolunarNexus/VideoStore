@@ -17,29 +17,17 @@ public class Customer
         return name;
     }
 
-    double getTotalRentalPrice(){
-        double total = 0;
-
-        for (Rental rental : this.rentals) {
-            total += rental.getMovie().getPriceOf(rental.getDaysRented());
-        }
-
-        return total;
+    public Statement getStatement(){
+        var builder = new Statement.StatementBuilder()
+                .setCustomerName(name);
+        rentals.forEach(builder::addRental);
+        return builder.build();
     }
-
-    int getTotalFrequenterPoints() {
-        int points = 0;
-
-        for (Rental rental : this.rentals) {
-            points += rental.getMovie().getFrequenterPoints(rental.getDaysRented());
-        }
-        return points;
-    }
-
 
     public String statement () {
-        double      totalAmount             = getTotalRentalPrice();
-        int         frequentRenterPoints    = getTotalFrequenterPoints();
+        var statement = getStatement();
+        double      totalAmount             = statement.getTotalRentalPrice();
+        int         frequentRenterPoints    = statement.getTotalFrequenterPoints();
         Enumeration rentals                 = this.rentals.elements ();
         String      result                  = "Rental Record for " + getName () + "\n";
 
