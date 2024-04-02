@@ -161,6 +161,23 @@ final class StatementTest {
                 """);
     }
 
+    @Test
+    void unicodeCustomerNameHtmlFormat() {
+        var statement = new Statement.StatementBuilder()
+                .setCustomerName("František Vopršálek")
+                .build();
+
+        assertHtmlFormatStatement(statement, """
+                <h1>Rentals for <em>František Vopršálek</em></h1>
+                <table>
+                <thead>
+                  <tr> <th> Movie <th> Price
+                <tbody>
+                <tr> <th> You owe <td> 0.0
+                </table><p>On this rental you earned <strong>0</strong> frequent renterpoints</p>
+                """);
+    }
+
     private void assertASCIIFormatStatement(Statement statement, String expectedStatement) {
         assertEquals(expectedStatement, statement.toASCIIFormat());
     }
