@@ -31,6 +31,23 @@ public class Statement {
         return points;
     }
 
+    public String toASCIIFormat () {
+        double totalAmount = getTotalRentalPrice();
+        int frequentRenterPoints = getTotalFrequenterPoints();
+        String result = "Rental Record for " + customerName + "\n";
+
+        for (var currentRental : rentals){
+            double  thisAmount = currentRental.rentalPrice;
+
+            result += "\t" + currentRental.movieName + "\t" + thisAmount + "\n";
+        }
+
+        result += "You owed " + totalAmount + "\n";
+        result += "You earned " + frequentRenterPoints + " frequent renter points\n";
+
+        return result;
+    }
+
     private record RentalRecord(String movieName, double rentalPrice, int frequenterPoints){}
 
     public static class StatementBuilder{

@@ -82,17 +82,17 @@ final class CustomerStatementTest {
     void nullMovie() {
         customer.addRental(new Rental(null, 4));
 
-        assertThrows(NullPointerException.class, () -> customer.statement());
+        assertThrows(NullPointerException.class, () -> customer.getStatement());
     }
 
     @Test
     void nullRental() {
         customer.addRental(null);
 
-        assertThrows(NullPointerException.class, () -> customer.statement());
+        assertThrows(NullPointerException.class, () -> customer.getStatement());
     }
 
     private void assertStatement(String expectedStatement) {
-        assertEquals(expectedStatement, customer.statement());
+        assertEquals(expectedStatement, customer.getStatement().toASCIIFormat());
     }
 }

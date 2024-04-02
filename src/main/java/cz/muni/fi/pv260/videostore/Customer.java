@@ -24,27 +24,6 @@ public class Customer
         return builder.build();
     }
 
-    public String statement () {
-        var statement = getStatement();
-        double      totalAmount             = statement.getTotalRentalPrice();
-        int         frequentRenterPoints    = statement.getTotalFrequenterPoints();
-        Enumeration rentals                 = this.rentals.elements ();
-        String      result                  = "Rental Record for " + getName () + "\n";
-
-        while (rentals.hasMoreElements ()) {
-            Rental  currentRental = (Rental)rentals.nextElement ();
-            double  thisAmount = currentRental.getMovie().getPriceOf(currentRental.getDaysRented());
-
-            result += "\t" + currentRental.getMovie ().getTitle () + "\t"
-                    + String.valueOf (thisAmount) + "\n";
-        }
-
-        result += "You owed " + String.valueOf (totalAmount) + "\n";
-        result += "You earned " + String.valueOf (frequentRenterPoints) + " frequent renter points\n";
-
-        return result;
-    }
-
     private String name;
     private final Vector<Rental> rentals = new Vector<>();
 }
