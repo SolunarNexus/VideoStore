@@ -48,6 +48,21 @@ public class Statement {
         return result;
     }
 
+    public String toHtmlFormat () {
+        String result = String.format("<h1>Rentals for <em>%s</em></h1>\n", customerName);
+        result += "<table>\n" + "<thead>\n" + "  <tr> <th> Movie <th> Price\n" + "<tbody>\n";
+
+        for (var currentRental : rentals){
+            result += String.format("  <tr> <td> %s <td> %.1f\n", currentRental.movieName, currentRental.rentalPrice);
+        }
+
+        result += String.format("<tr> <th> You owe <td> %.1f\n" + "</table>", getTotalRentalPrice());
+        result += String.format("<p>On this rental you earned <strong>%d</strong> frequent renter" +
+                "points</p>\n", getTotalFrequenterPoints());
+
+        return result;
+    }
+
     private record RentalRecord(String movieName, double rentalPrice, int frequenterPoints){}
 
     public static class StatementBuilder{
