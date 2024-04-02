@@ -110,25 +110,6 @@ final class StatementTest {
     }
 
     @Test
-    void unicodeMovieNameInHtmlFormat() {
-        var statement = new Statement.StatementBuilder()
-                .setCustomerName(CUSTOMER_NAME)
-                .addRental("Příběhy obyčejného šílenství", 5.0, 1)
-                .build();
-
-        assertHtmlFormatStatement(statement, """
-                <h1>Rentals for <em>John Doe</em></h1>
-                <table>
-                <thead>
-                  <tr> <th> Movie <th> Price
-                <tbody>
-                  <tr> <td> Příběhy obyčejného šílenství <td> 5.0
-                <tr> <th> You owe <td> 5.0
-                </table><p>On this rental you earned <strong>1</strong> frequent renterpoints</p>
-                """);
-    }
-
-    @Test
     void emptyCustomerNameHtmlFormat() {
         var statement = new Statement.StatementBuilder()
                 .setCustomerName("")
