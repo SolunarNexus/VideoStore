@@ -197,6 +197,25 @@ final class StatementTest {
                 """);
     }
 
+    @Test
+    void nullMovieNameHtmlFormat() {
+        var statement = new Statement.StatementBuilder()
+                .setCustomerName(CUSTOMER_NAME)
+                .addRental(null, 5.0, 1)
+                .build();
+
+        assertHtmlFormatStatement(statement, """
+                <h1>Rentals for <em>John Doe</em></h1>
+                <table>
+                <thead>
+                  <tr> <th> Movie <th> Price
+                <tbody>
+                  <tr> <td> null <td> 5.0
+                <tr> <th> You owe <td> 5.0
+                </table><p>On this rental you earned <strong>1</strong> frequent renterpoints</p>
+                """);
+    }
+
     private void assertASCIIFormatStatement(Statement statement, String expectedStatement) {
         assertEquals(expectedStatement, statement.toASCIIFormat());
     }
