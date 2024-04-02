@@ -17,53 +17,46 @@ public class Customer
         return name;
     }
 
+    double getTotalRentalPrice(){
+        double total = 0;
+
+        for (Rental rental : this.rentals) {
+            total += rental.getMovie().getPriceOf(rental.getDaysRented());
+        }
+
+        return total;
+    }
+
+    int getTotalFrequenterPoints() {
+        int points = 0;
+
+        for (Rental rental : this.rentals) {
+            points += rental.getMovie().getFrequenterPoints(rental.getDaysRented());
+        }
+        return points;
+    }
+
+
     public String statement () {
-        double      totalAmount             = 0;
-        int         frequentRenterPoints    = 0;
+        double      totalAmount             = getTotalRentalPrice();
+        int         frequentRenterPoints    = getTotalFrequenterPoints();
         Enumeration rentals                 = this.rentals.elements ();
         String      result                  = "Rental Record for " + getName () + "\n";
 
         while (rentals.hasMoreElements ()) {
-            double  thisAmount = 0;
-            Rental  each = (Rental)rentals.nextElement ();
+            Rental  currentRental = (Rental)rentals.nextElement ();
+            double  thisAmount = currentRental.getMovie().getPriceOf(currentRental.getDaysRented());
 
-            // determines the amount for each line
-            switch (each.getMovie ().getPriceCode ()) {
-                case Movie.REGULAR:
-                    thisAmount += 2;
-                    if (each.getDaysRented () > 2)
-                        thisAmount += (each.getDaysRented () - 2) * 1.5;
-                    break;
-                case Movie.NEW_RELEASE:
-                    thisAmount += each.getDaysRented () * 3;
-                    break;
-                case Movie.CHILDRENS:
-                    thisAmount += 1.5;
-                    if (each.getDaysRented () > 3)
-                        thisAmount += (each.getDaysRented () - 3) * 1.5;
-                    break;
-            }
-
-            frequentRenterPoints++;
-
-            if (each.getMovie ().getPriceCode () == Movie.NEW_RELEASE
-                    && each.getDaysRented () > 1)
-                frequentRenterPoints++;
-
-            result += "\t" + each.getMovie ().getTitle () + "\t"
+            result += "\t" + currentRental.getMovie ().getTitle () + "\t"
                     + String.valueOf (thisAmount) + "\n";
-            totalAmount += thisAmount;
-
         }
 
         result += "You owed " + String.valueOf (totalAmount) + "\n";
         result += "You earned " + String.valueOf (frequentRenterPoints) + " frequent renter points\n";
 
-
         return result;
     }
 
-
     private String name;
-    private Vector rentals = new Vector ();
+    private final Vector<Rental> rentals = new Vector<>();
 }
