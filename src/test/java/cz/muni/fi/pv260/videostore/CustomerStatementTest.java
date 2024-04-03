@@ -109,6 +109,28 @@ final class CustomerStatementTest {
     }
 
     @Test
+    void NegativePrice() {
+        customer.addRental(new Rental(new RegularMovie("New Release Movie"){
+            @Override
+            public double getPriceOf(int daysRented) {
+                return -30;
+            }
+
+            @Override
+            int getFrequenterPoints(int daysRented) {
+                return 1;
+            }
+        }, -10));
+
+        assertStatement("""
+                Rental Record for John Doe
+                	New Release Movie	-30.0
+                You owed -30.0
+                You earned 1 frequent renter points
+                """);
+    }
+
+    @Test
     void nullMovie() {
         customer.addRental(new Rental(null, 4));
 
@@ -287,6 +309,33 @@ final class CustomerStatementTest {
                 <tbody>
                   <tr> <td> Příběhy obyčejného šílenství <td> 5.0
                   <tr> <th> You owe <td> 5.0
+                </table>
+                <p>On this rental you earned <strong>1</strong> frequent renter
+                points</p>""");
+    }
+
+    @Test
+    void NegativePriceHtml() {
+        customer.addRental(new Rental(new RegularMovie("New Release Movie"){
+            @Override
+            public double getPriceOf(int daysRented) {
+                return -30;
+            }
+
+            @Override
+            int getFrequenterPoints(int daysRented) {
+                return 1;
+            }
+        }, -10));
+
+        assertHtmlStatement("""
+                <h1>Rentals for <em>John Doe</em></h1>
+                <table>
+                <thead>
+                  <tr> <th> Movie <th> Price
+                <tbody>
+                  <tr> <td> New Release Movie <td> -30.0
+                  <tr> <th> You owe <td> -30.0
                 </table>
                 <p>On this rental you earned <strong>1</strong> frequent renter
                 points</p>""");
