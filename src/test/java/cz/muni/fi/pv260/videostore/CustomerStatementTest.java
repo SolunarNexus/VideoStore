@@ -44,7 +44,17 @@ final class CustomerStatementTest {
 
     @Test
     void emptyMovieName() {
-        customer.addRental(new Rental(new RegularMovie(""), 4));
+        customer.addRental(new Rental(new RegularMovie("") {
+            @Override
+            public double getPriceOf(int daysRented) {
+                return 5;
+            }
+
+            @Override
+            int getFrequenterPoints(int daysRented) {
+                return 1;
+            }
+        }, 4));
 
         assertStatement("""
                 Rental Record for John Doe
@@ -56,7 +66,17 @@ final class CustomerStatementTest {
 
     @Test
     void nullMovieName() {
-        customer.addRental(new Rental(new RegularMovie(null), 4));
+        customer.addRental(new Rental(new RegularMovie(null) {
+            @Override
+            public double getPriceOf(int daysRented) {
+                return 5;
+            }
+
+            @Override
+            int getFrequenterPoints(int daysRented) {
+                return 1;
+            }
+        }, 4));
 
         assertStatement("""
                 Rental Record for John Doe
@@ -68,7 +88,17 @@ final class CustomerStatementTest {
 
     @Test
     void unicodeMovieName() {
-        customer.addRental(new Rental(new RegularMovie("Příběhy obyčejného šílenství"), 4));
+        customer.addRental(new Rental(new RegularMovie("Příběhy obyčejného šílenství") {
+            @Override
+            public double getPriceOf(int daysRented) {
+                return 5;
+            }
+
+            @Override
+            int getFrequenterPoints(int daysRented) {
+                return 1;
+            }
+        }, 4));
 
         assertStatement("""
                 Rental Record for John Doe
