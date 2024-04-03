@@ -57,6 +57,18 @@ public class Customer
         return result;
     }
 
+    public String htmlStatement () {
+        return "<h1>Rentals for <em>John Doe</em></h1>\n" +
+                "<table>\n" +
+                "<thead>\n" +
+                "  <tr> <th> Movie <th> Price\n" +
+                "<tbody>\n" +
+                "  <tr> <th> You owe <td> 0.0\n" +
+                "</table>\n" +
+                "<p>On this rental you earned <strong>0</strong> frequent renter\n" +
+                "points</p>";
+    }
+
     private String name;
     private final Vector<Rental> rentals = new Vector<>();
 }

@@ -122,7 +122,25 @@ final class CustomerStatementTest {
         assertThrows(NullPointerException.class, () -> customer.statement());
     }
 
+    @Test
+    void noRentalsHtmlStatement() {
+        assertHtmlStatement("""
+                <h1>Rentals for <em>John Doe</em></h1>
+                <table>
+                <thead>
+                  <tr> <th> Movie <th> Price
+                <tbody>
+                  <tr> <th> You owe <td> 0.0
+                </table>
+                <p>On this rental you earned <strong>0</strong> frequent renter
+                points</p>""");
+    }
+
     private void assertStatement(String expectedStatement) {
         assertEquals(expectedStatement, customer.statement());
+    }
+
+    private void assertHtmlStatement(String expectedStatement) {
+        assertEquals(expectedStatement, customer.htmlStatement());
     }
 }
