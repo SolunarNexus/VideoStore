@@ -163,6 +163,7 @@ final class CustomerStatementTest {
                 points</p>""");
     }
 
+    @Test
     void emptyCustomerNameHtml() {
         customer = new Customer("");
 
