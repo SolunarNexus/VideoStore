@@ -2,6 +2,7 @@ package cz.muni.fi.pv260.videostore;
 
 import java.util.Vector;
 import java.util.Enumeration;
+import java.util.stream.Collectors;
 
 public class Customer
 {
@@ -58,14 +59,18 @@ public class Customer
     }
 
     public String htmlStatement () {
-        return "<h1>Rentals for <em>John Doe</em></h1>\n" +
+        return "<h1>Rentals for <em>" + name + "</em></h1>\n" +
                 "<table>\n" +
                 "<thead>\n" +
                 "  <tr> <th> Movie <th> Price\n" +
                 "<tbody>\n" +
-                "  <tr> <th> You owe <td> 0.0\n" +
+                rentals.stream()
+                        .map(rental ->
+                                "  <tr> <td> " + rental.getMovie().getTitle() + " <td> "+ rental.getMovie().getPriceOf(rental.getDaysRented()) + "\n")
+                        .collect(Collectors.joining()) +
+                "  <tr> <th> You owe <td> " + getTotalRentalPrice() + "\n" +
                 "</table>\n" +
-                "<p>On this rental you earned <strong>0</strong> frequent renter\n" +
+                "<p>On this rental you earned <strong>" + getTotalFrequenterPoints() + "</strong> frequent renter\n" +
                 "points</p>";
     }
 

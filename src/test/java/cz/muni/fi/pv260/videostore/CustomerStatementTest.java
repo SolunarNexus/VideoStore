@@ -136,6 +136,33 @@ final class CustomerStatementTest {
                 points</p>""");
     }
 
+    @Test
+    void singleRentalHtmlStatement() {
+        customer.addRental(new Rental(new RegularMovie("Movie") {
+            @Override
+            public double getPriceOf(int daysRented) {
+                return 1.5;
+            }
+
+            @Override
+            int getFrequenterPoints(int daysRented) {
+                return 1;
+            }
+        }, 4));
+
+        assertHtmlStatement("""
+                <h1>Rentals for <em>John Doe</em></h1>
+                <table>
+                <thead>
+                  <tr> <th> Movie <th> Price
+                <tbody>
+                  <tr> <td> Movie <td> 1.5
+                  <tr> <th> You owe <td> 1.5
+                </table>
+                <p>On this rental you earned <strong>1</strong> frequent renter
+                points</p>""");
+    }
+
     private void assertStatement(String expectedStatement) {
         assertEquals(expectedStatement, customer.statement());
     }
