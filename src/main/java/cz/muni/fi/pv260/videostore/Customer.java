@@ -58,6 +58,10 @@ public class Customer
         return result;
     }
 
+    /**
+     * Information about customer rentals, their price, total price and frequenter points in html format
+     * @return formatted html string
+     */
     public String htmlStatement () {
         return "<h1>Rentals for <em>" + name + "</em></h1>\n" +
                 "<table>\n" +
