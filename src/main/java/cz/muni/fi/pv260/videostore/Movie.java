@@ -22,5 +22,5 @@ public abstract class Movie {
         return title;
     }
 
-    private String title;
+    private final String title;
 }
