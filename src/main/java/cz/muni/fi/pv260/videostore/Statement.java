@@ -2,7 +2,7 @@ package cz.muni.fi.pv260.videostore;
 
 import java.util.stream.Collectors;
 
-public class Statement {
+public abstract class Statement {
     private final Customer customer;
 
     public Statement(Customer customer) {
@@ -29,33 +29,9 @@ public class Statement {
         return customer;
     }
 
-    public String format () {
-        return "Rental Record for " + getCustomer().getName() + "\n" +
-                getCustomer().getRentals()
-                        .map(rental ->
-                                "\t" + rental.getMovie().getTitle() + "\t" + rental.getRentalPrice() + "\n")
-                        .collect(Collectors.joining()) +
-                "You owed " + getTotalRentalPrice() + "\n" +
-                "You earned " + getTotalFrequenterPoints() + " frequent renter points\n";
-    }
-
     /**
-     * Information about customer rentals, their price, total price and frequenter points in html format
-     * @return formatted html string
+     * Information about customer rentals, their price, total price and frequenter points in formatted string
+     * @return formatted statement to string
      */
-    public String htmlStatement () {
-        return "<h1>Rentals for <em>" + getCustomer().getName() + "</em></h1>\n" +
-                "<table>\n" +
-                "<thead>\n" +
-                "  <tr> <th> Movie <th> Price\n" +
-                "<tbody>\n" +
-                getCustomer().getRentals()
-                        .map(rental ->
-                                "  <tr> <td> " + rental.getMovie().getTitle() + " <td> "+ rental.getRentalPrice() + "\n")
-                        .collect(Collectors.joining()) +
-                "  <tr> <th> You owe <td> " + getTotalRentalPrice() + "\n" +
-                "</table>\n" +
-                "<p>On this rental you earned <strong>" + getTotalFrequenterPoints() + "</strong> frequent renter\n" +
-                "points</p>";
-    }
+    public abstract String format ();
 }

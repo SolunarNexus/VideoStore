@@ -134,14 +134,14 @@ final class CustomerStatementTest {
     void nullMovie() {
         customer.addRental(new Rental(null, 4));
 
-        assertThrows(NullPointerException.class, () -> new Statement(customer).format());
+        assertThrows(NullPointerException.class, () -> new HtmlStatement(customer).format());
     }
 
     @Test
     void nullRental() {
         customer.addRental(null);
 
-        assertThrows(NullPointerException.class, () -> new Statement(customer).format());
+        assertThrows(NullPointerException.class, () -> new HtmlStatement(customer).format());
     }
 
     @Test
@@ -342,10 +342,10 @@ final class CustomerStatementTest {
     }
 
     private void assertStatement(String expectedStatement) {
-        assertEquals(expectedStatement, new Statement(customer).format());
+        assertEquals(expectedStatement, new AsciiStatement(customer).format());
     }
 
     private void assertHtmlStatement(String expectedStatement) {
-        assertEquals(expectedStatement, new Statement(customer).htmlStatement());
+        assertEquals(expectedStatement, new HtmlStatement(customer).format());
     }
 }
