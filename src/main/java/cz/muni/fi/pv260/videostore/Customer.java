@@ -19,13 +19,7 @@ public class Customer
     }
 
     double getTotalRentalPrice(){
-        double total = 0;
-
-        for (Rental rental : this.rentals) {
-            total += rental.getMovie().getPriceOf(rental.getDaysRented());
-        }
-
-        return total;
+        return rentals.stream().mapToDouble(Rental::getRentalPrice).sum();
     }
 
     int getTotalFrequenterPoints() {
