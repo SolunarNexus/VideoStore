@@ -39,17 +39,7 @@ final class HtmlStatementTest {
 
     @Test
     void singleRentalHtmlStatement() {
-        customer.addRental(new Rental(new RegularMovie("Movie") {
-            @Override
-            public double getPriceOf(int daysRented) {
-                return 1.5;
-            }
-
-            @Override
-            int getFrequenterPoints(int daysRented) {
-                return 1;
-            }
-        }, 4));
+        customer.addRental(new Rental(getBasicMovie("Movie", 1.5), 4));
 
         assertHtmlStatement("""
                 <h1>Rentals for <em>John Doe</em></h1>
@@ -114,17 +104,7 @@ final class HtmlStatementTest {
 
     @Test
     void emptyMovieNameHtml() {
-        customer.addRental(new Rental(new RegularMovie("") {
-            @Override
-            public double getPriceOf(int daysRented) {
-                return 5;
-            }
-
-            @Override
-            int getFrequenterPoints(int daysRented) {
-                return 1;
-            }
-        }, 4));
+        customer.addRental(new Rental(getBasicMovie("", 5), 4));
 
         assertHtmlStatement("""
                 <h1>Rentals for <em>John Doe</em></h1>
@@ -141,17 +121,7 @@ final class HtmlStatementTest {
 
     @Test
     void nullMovieNameHtml() {
-        customer.addRental(new Rental(new RegularMovie(null) {
-            @Override
-            public double getPriceOf(int daysRented) {
-                return 1.5;
-            }
-
-            @Override
-            int getFrequenterPoints(int daysRented) {
-                return 1;
-            }
-        }, 4));
+        customer.addRental(new Rental(getBasicMovie(null, 1.5), 4));
 
         assertHtmlStatement("""
                 <h1>Rentals for <em>John Doe</em></h1>
@@ -168,17 +138,7 @@ final class HtmlStatementTest {
 
     @Test
     void unicodeMovieNameHtml() {
-        customer.addRental(new Rental(new RegularMovie("Příběhy obyčejného šílenství") {
-            @Override
-            public double getPriceOf(int daysRented) {
-                return 5;
-            }
-
-            @Override
-            int getFrequenterPoints(int daysRented) {
-                return 1;
-            }
-        }, 4));
+        customer.addRental(new Rental(getBasicMovie("Příběhy obyčejného šílenství", 5), 4));
 
         assertHtmlStatement("""
                 <h1>Rentals for <em>John Doe</em></h1>
@@ -195,17 +155,7 @@ final class HtmlStatementTest {
 
     @Test
     void NegativePriceHtml() {
-        customer.addRental(new Rental(new RegularMovie("New Release Movie"){
-            @Override
-            public double getPriceOf(int daysRented) {
-                return -30;
-            }
-
-            @Override
-            int getFrequenterPoints(int daysRented) {
-                return 1;
-            }
-        }, -10));
+        customer.addRental(new Rental(getBasicMovie("New Release Movie", -30), -10));
 
         assertHtmlStatement("""
                 <h1>Rentals for <em>John Doe</em></h1>
@@ -218,6 +168,15 @@ final class HtmlStatementTest {
                 </table>
                 <p>On this rental you earned <strong>1</strong> frequent renter
                 points</p>""");
+    }
+
+    private Movie getBasicMovie(String title, double price){
+        return new RegularMovie(title){
+            @Override
+            public double getPriceOf(int daysRented) {
+                return price;
+            }
+        };
     }
 
     private void assertHtmlStatement(String expectedStatement) {
