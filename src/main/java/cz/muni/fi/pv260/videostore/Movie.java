@@ -1,6 +1,7 @@
 package cz.muni.fi.pv260.videostore;
 
 public abstract class Movie {
+    private final String title;
 
     public Movie (String title) {
         this.title = title;
@@ -20,6 +21,4 @@ public abstract class Movie {
     public String getTitle () {
         return title;
     }
-
-    private String title;
 }
