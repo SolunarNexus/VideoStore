@@ -5,6 +5,9 @@ import java.util.stream.Collectors;
 
 public class Customer
 {
+    private final String name;
+    private final Vector<Rental> rentals = new Vector<>();
+
     public Customer (String name) {
         this.name = name;
     }
@@ -66,7 +69,4 @@ public class Customer
                 "<p>On this rental you earned <strong>" + getTotalFrequenterPoints() + "</strong> frequent renter\n" +
                 "points</p>";
     }
-
-    private final String name;
-    private final Vector<Rental> rentals = new Vector<>();
 }
