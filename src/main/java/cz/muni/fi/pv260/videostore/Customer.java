@@ -68,6 +68,6 @@ public class Customer
                 "points</p>";
     }
 
-    private String name;
+    private final String name;
     private final Vector<Rental> rentals = new Vector<>();
 }
