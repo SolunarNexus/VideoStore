@@ -346,6 +346,6 @@ final class CustomerStatementTest {
     }
 
     private void assertHtmlStatement(String expectedStatement) {
-        assertEquals(expectedStatement, customer.htmlStatement());
+        assertEquals(expectedStatement, new Statement(customer).htmlStatement());
     }
 }
