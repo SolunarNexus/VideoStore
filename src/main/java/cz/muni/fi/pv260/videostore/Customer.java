@@ -33,7 +33,7 @@ public class Customer
         return "Rental Record for " + getName() + "\n" +
                 rentals.stream()
                         .map(rental ->
-                                "\t" + rental.getMovie().getTitle() + "\t" + rental.getRentalPrice() + "\n")
+                                "\t" + rental.movie().getTitle() + "\t" + rental.getRentalPrice() + "\n")
                         .collect(Collectors.joining()) +
                 "You owed " + getTotalRentalPrice() + "\n" +
                 "You earned " + getTotalFrequenterPoints() + " frequent renter points\n";
@@ -51,7 +51,7 @@ public class Customer
                 "<tbody>\n" +
                 rentals.stream()
                         .map(rental ->
-                                "  <tr> <td> " + rental.getMovie().getTitle() + " <td> "+ rental.getRentalPrice() + "\n")
+                                "  <tr> <td> " + rental.movie().getTitle() + " <td> "+ rental.getRentalPrice() + "\n")
                         .collect(Collectors.joining()) +
                 "  <tr> <th> You owe <td> " + getTotalRentalPrice() + "\n" +
                 "</table>\n" +

@@ -41,7 +41,7 @@ public final class Main {
 
     private static void printRentedMovies(List<Rental> rentals) {
         System.out.println(customer.getName() + " -> " + rentals.stream()
-                .map(r -> r.getMovie().getTitle())
+                .map(r -> r.movie().getTitle())
                 .collect(Collectors.joining(", ")));
         System.out.println();
     }
