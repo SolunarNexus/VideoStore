@@ -3,6 +3,7 @@ package cz.muni.fi.pv260.videostore;
 import java.util.Vector;
 import java.util.Enumeration;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Customer
 {
@@ -18,23 +19,19 @@ public class Customer
         return name;
     }
 
-    double getTotalRentalPrice(){
-        return rentals.stream().mapToDouble(Rental::getRentalPrice).sum();
+    Stream<Rental> getRentals(){
+        return rentals.stream();
     }
-
-    int getTotalFrequenterPoints() {
-        return rentals.stream().mapToInt(Rental::getFrequenterPoints).sum();
-    }
-
 
     public String statement () {
+        var statement = new Statement(this);
         return "Rental Record for " + getName() + "\n" +
                 rentals.stream()
                         .map(rental ->
                                 "\t" + rental.getMovie().getTitle() + "\t" + rental.getRentalPrice() + "\n")
                         .collect(Collectors.joining()) +
-                "You owed " + getTotalRentalPrice() + "\n" +
-                "You earned " + getTotalFrequenterPoints() + " frequent renter points\n";
+                "You owed " + statement.getTotalRentalPrice() + "\n" +
+                "You earned " + statement.getTotalFrequenterPoints() + " frequent renter points\n";
     }
 
     /**
@@ -42,6 +39,7 @@ public class Customer
      * @return formatted html string
      */
     public String htmlStatement () {
+        var statement = new Statement(this);
         return "<h1>Rentals for <em>" + name + "</em></h1>\n" +
                 "<table>\n" +
                 "<thead>\n" +
@@ -51,9 +49,9 @@ public class Customer
                         .map(rental ->
                                 "  <tr> <td> " + rental.getMovie().getTitle() + " <td> "+ rental.getRentalPrice() + "\n")
                         .collect(Collectors.joining()) +
-                "  <tr> <th> You owe <td> " + getTotalRentalPrice() + "\n" +
+                "  <tr> <th> You owe <td> " + statement.getTotalRentalPrice() + "\n" +
                 "</table>\n" +
-                "<p>On this rental you earned <strong>" + getTotalFrequenterPoints() + "</strong> frequent renter\n" +
+                "<p>On this rental you earned <strong>" + statement.getTotalFrequenterPoints() + "</strong> frequent renter\n" +
                 "points</p>";
     }
 
