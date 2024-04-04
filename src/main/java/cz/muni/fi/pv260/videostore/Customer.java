@@ -20,23 +20,22 @@ public class Customer
         return name;
     }
 
-    double getTotalRentalPrice(){
-        return rentals.stream().mapToDouble(Rental::getRentalPrice).sum();
+    public Statement getStatement() {
+        var builder = new Statement.StatementBuilder();
+        rentals.forEach(builder::addRental);
+        return builder.build();
     }
-
-    int getTotalFrequenterPoints() {
-        return rentals.stream().mapToInt(Rental::getFrequenterPoints).sum();
-    }
-
 
     public String statement () {
+        var statement = getStatement();
+
         return "Rental Record for " + getName() + "\n" +
-                rentals.stream()
-                        .map(rental ->
-                                "\t" + rental.movie().getTitle() + "\t" + rental.getRentalPrice() + "\n")
+                statement.getRentalRecords()
+                        .map(record ->
+                                "\t" + record.movieName() + "\t" + record.rentalPrice() + "\n")
                         .collect(Collectors.joining()) +
-                "You owed " + getTotalRentalPrice() + "\n" +
-                "You earned " + getTotalFrequenterPoints() + " frequent renter points\n";
+                "You owed " + statement.getTotalRentalPrice() + "\n" +
+                "You earned " + statement.getTotalFrequenterPoints() + " frequent renter points\n";
     }
 
     /**
@@ -44,18 +43,20 @@ public class Customer
      * @return formatted html string
      */
     public String htmlStatement () {
+        var statement = getStatement();
+
         return "<h1>Rentals for <em>" + name + "</em></h1>\n" +
                 "<table>\n" +
                 "<thead>\n" +
                 "  <tr> <th> Movie <th> Price\n" +
                 "<tbody>\n" +
-                rentals.stream()
-                        .map(rental ->
-                                "  <tr> <td> " + rental.movie().getTitle() + " <td> "+ rental.getRentalPrice() + "\n")
+                statement.getRentalRecords()
+                        .map(record ->
+                                "  <tr> <td> " + record.movieName() + " <td> "+ record.rentalPrice() + "\n")
                         .collect(Collectors.joining()) +
-                "  <tr> <th> You owe <td> " + getTotalRentalPrice() + "\n" +
+                "  <tr> <th> You owe <td> " + statement.getTotalRentalPrice() + "\n" +
                 "</table>\n" +
-                "<p>On this rental you earned <strong>" + getTotalFrequenterPoints() + "</strong> frequent renter\n" +
+                "<p>On this rental you earned <strong>" + statement.getTotalFrequenterPoints() + "</strong> frequent renter\n" +
                 "points</p>";
     }
 }
