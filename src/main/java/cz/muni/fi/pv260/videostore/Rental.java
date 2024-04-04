@@ -2,6 +2,9 @@ package cz.muni.fi.pv260.videostore;
 
 public class Rental
 {
+    private final Movie movie;
+    private final int daysRented;
+
     public Rental (Movie movie, int daysRented) {
         this.movie      = movie;
         this.daysRented = daysRented;
@@ -30,7 +33,4 @@ public class Rental
     public int getFrequenterPoints() {
         return movie.getFrequenterPoints(daysRented);
     }
-
-    private final Movie movie;
-    private final int daysRented;
 }
