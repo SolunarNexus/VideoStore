@@ -44,17 +44,7 @@ final class AsciiStatementTest {
 
     @Test
     void emptyMovieName() {
-        customer.addRental(new Rental(new RegularMovie("") {
-            @Override
-            public double getPriceOf(int daysRented) {
-                return 5;
-            }
-
-            @Override
-            int getFrequenterPoints(int daysRented) {
-                return 1;
-            }
-        }, 4));
+        customer.addRental(new Rental(getBasicMovie("", 5), 4));
 
         assertStatement("""
                 Rental Record for John Doe
@@ -66,17 +56,7 @@ final class AsciiStatementTest {
 
     @Test
     void nullMovieName() {
-        customer.addRental(new Rental(new RegularMovie(null) {
-            @Override
-            public double getPriceOf(int daysRented) {
-                return 5;
-            }
-
-            @Override
-            int getFrequenterPoints(int daysRented) {
-                return 1;
-            }
-        }, 4));
+        customer.addRental(new Rental(getBasicMovie(null, 5), 4));
 
         assertStatement("""
                 Rental Record for John Doe
@@ -88,17 +68,7 @@ final class AsciiStatementTest {
 
     @Test
     void unicodeMovieName() {
-        customer.addRental(new Rental(new RegularMovie("Příběhy obyčejného šílenství") {
-            @Override
-            public double getPriceOf(int daysRented) {
-                return 5;
-            }
-
-            @Override
-            int getFrequenterPoints(int daysRented) {
-                return 1;
-            }
-        }, 4));
+        customer.addRental(new Rental(getBasicMovie("Příběhy obyčejného šílenství", 5), 4));
 
         assertStatement("""
                 Rental Record for John Doe
@@ -110,17 +80,7 @@ final class AsciiStatementTest {
 
     @Test
     void NegativePrice() {
-        customer.addRental(new Rental(new RegularMovie("New Release Movie"){
-            @Override
-            public double getPriceOf(int daysRented) {
-                return -30;
-            }
-
-            @Override
-            int getFrequenterPoints(int daysRented) {
-                return 1;
-            }
-        }, -10));
+        customer.addRental(new Rental(getBasicMovie("New Release Movie", -30), -10));
 
         assertStatement("""
                 Rental Record for John Doe
@@ -128,6 +88,15 @@ final class AsciiStatementTest {
                 You owed -30.0
                 You earned 1 frequent renter points
                 """);
+    }
+
+    private Movie getBasicMovie(String title, int price){
+        return new RegularMovie(title){
+            @Override
+            public double getPriceOf(int daysRented) {
+                return price;
+            }
+        };
     }
 
     private void assertStatement(String expectedStatement) {
