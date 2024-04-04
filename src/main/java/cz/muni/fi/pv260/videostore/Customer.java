@@ -29,12 +29,7 @@ public class Customer
     }
 
     int getTotalFrequenterPoints() {
-        int points = 0;
-
-        for (Rental rental : this.rentals) {
-            points += rental.getMovie().getFrequenterPoints(rental.getDaysRented());
-        }
-        return points;
+        return rentals.stream().mapToInt(Rental::getFrequenterPoints).sum();
     }
 
 
