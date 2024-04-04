@@ -1,7 +1,6 @@
 package cz.muni.fi.pv260.videostore;
 
 import java.util.Vector;
-import java.util.Enumeration;
 import java.util.stream.Collectors;
 
 public class Customer
