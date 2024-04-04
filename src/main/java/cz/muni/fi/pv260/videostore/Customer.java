@@ -70,7 +70,7 @@ public class Customer
                 "<tbody>\n" +
                 rentals.stream()
                         .map(rental ->
-                                "  <tr> <td> " + rental.getMovie().getTitle() + " <td> "+ rental.getMovie().getPriceOf(rental.getDaysRented()) + "\n")
+                                "  <tr> <td> " + rental.getMovie().getTitle() + " <td> "+ rental.getRentalPrice() + "\n")
                         .collect(Collectors.joining()) +
                 "  <tr> <th> You owe <td> " + getTotalRentalPrice() + "\n" +
                 "</table>\n" +
