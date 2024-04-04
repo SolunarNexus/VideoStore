@@ -9,7 +9,7 @@ public class AsciiStatement extends Statement {
     }
 
     @Override
-    public String format () {
+    public String format() {
         return "Rental Record for " + getCustomer().getName() + "\n" +
                 getCustomer().getRentals()
                         .map(rental ->

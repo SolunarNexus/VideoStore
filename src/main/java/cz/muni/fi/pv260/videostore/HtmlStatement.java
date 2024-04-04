@@ -9,7 +9,7 @@ public class HtmlStatement extends Statement {
     }
 
     @Override
-    public String format () {
+    public String format() {
         return "<h1>Rentals for <em>" + getCustomer().getName() + "</em></h1>\n" +
                 "<table>\n" +
                 "<thead>\n" +
@@ -17,7 +17,7 @@ public class HtmlStatement extends Statement {
                 "<tbody>\n" +
                 getCustomer().getRentals()
                         .map(rental ->
-                                "  <tr> <td> " + rental.getMovie().getTitle() + " <td> "+ rental.getRentalPrice() + "\n")
+                                "  <tr> <td> " + rental.getMovie().getTitle() + " <td> " + rental.getRentalPrice() + "\n")
                         .collect(Collectors.joining()) +
                 "  <tr> <th> You owe <td> " + getTotalRentalPrice() + "\n" +
                 "</table>\n" +

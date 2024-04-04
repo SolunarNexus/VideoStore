@@ -2,12 +2,13 @@ package cz.muni.fi.pv260.videostore;
 
 public abstract class Movie {
 
-    public Movie (String title) {
+    public Movie(String title) {
         this.title = title;
     }
 
     /**
      * Method calculates price for renting movie for specific number of days
+     *
      * @param daysRented int number of days movie was rented for
      * @return price for the rent period
      */
@@ -17,7 +18,7 @@ public abstract class Movie {
         return 1;
     }
 
-    public String getTitle () {
+    public String getTitle() {
         return title;
     }
 
