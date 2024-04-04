@@ -20,6 +20,6 @@ public class Customer {
         return rentals.stream();
     }
 
-    private String name;
+    private final String name;
     private final Vector<Rental> rentals = new Vector<>();
 }
