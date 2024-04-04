@@ -15,6 +15,14 @@ public class Rental
         return movie;
     }
 
+    /**
+     * Method calculates price for this rental. Price depends on movie type and rental period.
+     * @return rental price.
+     */
+    public double getRentalPrice() {
+        return movie.getPriceOf(daysRented);
+    }
+
     private Movie movie;
     private int daysRented;
 }
