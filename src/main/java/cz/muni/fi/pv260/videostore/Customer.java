@@ -23,17 +23,6 @@ public class Customer
         return rentals.stream();
     }
 
-    public String statement () {
-        var statement = new Statement(this);
-        return "Rental Record for " + getName() + "\n" +
-                rentals.stream()
-                        .map(rental ->
-                                "\t" + rental.getMovie().getTitle() + "\t" + rental.getRentalPrice() + "\n")
-                        .collect(Collectors.joining()) +
-                "You owed " + statement.getTotalRentalPrice() + "\n" +
-                "You earned " + statement.getTotalFrequenterPoints() + " frequent renter points\n";
-    }
-
     /**
      * Information about customer rentals, their price, total price and frequenter points in html format
      * @return formatted html string
