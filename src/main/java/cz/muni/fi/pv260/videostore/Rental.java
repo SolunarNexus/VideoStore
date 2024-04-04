@@ -23,6 +23,14 @@ public class Rental
         return movie.getPriceOf(daysRented);
     }
 
+    /**
+     * Method calculates frequent renter points for this rental.
+     * @return Amount of frequent renter points.
+     */
+    public int getFrequenterPoints() {
+        return movie.getFrequenterPoints(daysRented);
+    }
+
     private Movie movie;
     private int daysRented;
 }
