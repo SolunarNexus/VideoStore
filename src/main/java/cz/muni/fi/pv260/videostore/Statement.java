@@ -34,5 +34,5 @@ public abstract class Statement {
      *
      * @return formatted statement to string
      */
-    public abstract String format();
+    public abstract String toString();
 }

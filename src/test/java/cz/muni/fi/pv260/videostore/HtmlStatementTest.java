@@ -13,14 +13,14 @@ final class HtmlStatementTest {
     void nullMovie() {
         customer.addRental(new Rental(null, 4));
 
-        assertThrows(NullPointerException.class, () -> new HtmlStatement(customer).format());
+        assertThrows(NullPointerException.class, () -> new HtmlStatement(customer).toString());
     }
 
     @Test
     void nullRental() {
         customer.addRental(null);
 
-        assertThrows(NullPointerException.class, () -> new HtmlStatement(customer).format());
+        assertThrows(NullPointerException.class, () -> new HtmlStatement(customer).toString());
     }
 
     @Test
@@ -180,6 +180,6 @@ final class HtmlStatementTest {
     }
 
     private void assertHtmlStatement(String expectedStatement) {
-        assertEquals(expectedStatement, new HtmlStatement(customer).format());
+        assertEquals(expectedStatement, new HtmlStatement(customer).toString());
     }
 }

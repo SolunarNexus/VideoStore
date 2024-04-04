@@ -47,6 +47,6 @@ public final class Main {
     }
 
     private static void printRentalStatement() {
-        System.out.print(new AsciiStatement(customer).format());
+        System.out.print(new AsciiStatement(customer));
     }
 }

@@ -9,7 +9,7 @@ public class HtmlStatement extends Statement {
     }
 
     @Override
-    public String format() {
+    public String toString() {
         return "<h1>Rentals for <em>" + getCustomer().getName() + "</em></h1>\n" +
                 "<table>\n" +
                 "<thead>\n" +

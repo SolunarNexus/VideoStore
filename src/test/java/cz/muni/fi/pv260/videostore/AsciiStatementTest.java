@@ -99,6 +99,6 @@ final class AsciiStatementTest {
     }
 
     private void assertStatement(String expectedStatement) {
-        assertEquals(expectedStatement, new AsciiStatement(customer).format());
+        assertEquals(expectedStatement, new AsciiStatement(customer).toString());
     }
 }
