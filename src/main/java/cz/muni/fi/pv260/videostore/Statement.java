@@ -1,7 +1,5 @@
 package cz.muni.fi.pv260.videostore;
 
-import java.util.stream.Collectors;
-
 public abstract class Statement {
     private final Customer customer;
 
