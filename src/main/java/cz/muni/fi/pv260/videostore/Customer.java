@@ -39,23 +39,13 @@ public class Customer
 
 
     public String statement () {
-        double      totalAmount             = getTotalRentalPrice();
-        int         frequentRenterPoints    = getTotalFrequenterPoints();
-        Enumeration rentals                 = this.rentals.elements ();
-        String      result                  = "Rental Record for " + getName () + "\n";
-
-        while (rentals.hasMoreElements ()) {
-            Rental  currentRental = (Rental)rentals.nextElement ();
-            double  thisAmount = currentRental.getMovie().getPriceOf(currentRental.getDaysRented());
-
-            result += "\t" + currentRental.getMovie ().getTitle () + "\t"
-                    + String.valueOf (thisAmount) + "\n";
-        }
-
-        result += "You owed " + String.valueOf (totalAmount) + "\n";
-        result += "You earned " + String.valueOf (frequentRenterPoints) + " frequent renter points\n";
-
-        return result;
+        return "Rental Record for " + getName() + "\n" +
+                rentals.stream()
+                        .map(rental ->
+                                "\t" + rental.getMovie().getTitle() + "\t" + rental.getRentalPrice() + "\n")
+                        .collect(Collectors.joining()) +
+                "You owed " + getTotalRentalPrice() + "\n" +
+                "You earned " + getTotalFrequenterPoints() + " frequent renter points\n";
     }
 
     /**
